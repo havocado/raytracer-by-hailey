@@ -1,0 +1,8 @@
+<<<<<<< Updated upstream
+=======
+"C:\Program Files\JetBrains\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2023.2.2/bin/ninja/win/x64/ninja.exe" -G Ninja -S D:\2023_opengl_projects\glfw-proj -B D:\2023_opengl_projects\glfw-proj\cmake-build-debug
+-- Using Win32 for window creation
+-- Configuring done (0.5s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/2023_opengl_projects/glfw-proj/cmake-build-debug
+>>>>>>> Stashed changes

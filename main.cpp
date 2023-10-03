@@ -1,7 +1,14 @@
 #include <GLFW/glfw3.h>
 
+<<<<<<< Updated upstream
 int main(void)
 {
+=======
+#include "vec3.h"
+#include "color.h"
+
+int main() {
+>>>>>>> Stashed changes
     GLFWwindow* window;
 
     /* Initialize the library */
