@@ -1,8 +1,0 @@
-D:/2023_opengl_projects/glfw-proj/cmake-build-debug/CMakeFiles/GLFW-CMake-starter.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-debug/glfw/CMakeFiles/edit_cache.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-debug/glfw/CMakeFiles/rebuild_cache.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-debug/glfw/src/CMakeFiles/glfw.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-debug/glfw/src/CMakeFiles/edit_cache.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-debug/glfw/src/CMakeFiles/rebuild_cache.dir
