@@ -4,6 +4,14 @@
 #include "vec3.h"
 #include "color.h"
 
+color getColorPlaceholder(const float& NDC_x, const float& NDC_y) {
+    color c;
+    c[0] = (NDC_x+1.f)*0.5f;
+    c[1] = (NDC_y+1.f)*0.5f;
+    c[2] = 1.f;
+    return c;
+}
+
 int main() {
     GLFWwindow* window;
 
@@ -41,7 +49,9 @@ int main() {
         for (int j = 0; j < 2*height; j++) {
             float NDC_x = (float)j/(float)height-1.f; // [-1, 1]
             float NDC_y = (float)i/(float)width-1.f; // [-1, 1]
-            glColor3f((float)j/(float)height*0.5f,(float)i/(float)width*0.5f,1.f);
+            color c = getColorPlaceholder(NDC_x, NDC_y);
+            //glColor3f((float)j/(float)height*0.5f,(float)i/(float)width*0.5f,1.f);
+            glColor3f(c.x(),c.y(),c.z());
             glVertex2f(NDC_x,NDC_y);
         }
     }
@@ -51,6 +61,11 @@ int main() {
     // Swap front/back buffers
     glfwSwapBuffers(window);
     glfwPollEvents();
+
+    // Wait until the window is closed
+    while (!glfwWindowShouldClose(window)) {
+        glfwPollEvents();
+    }
 
     glfwDestroyWindow(window);
     glfwTerminate();
