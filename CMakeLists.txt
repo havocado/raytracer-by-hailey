@@ -17,7 +17,10 @@ endif()
 
 set( GLFW-CMAKE-STARTER-SRC
      main.cpp
-     )
+        vec3.h
+        color.h
+        ray.h
+)
      
 add_executable( GLFW-CMake-starter WIN32 ${GLFW-CMAKE-STARTER-SRC} )
 target_link_libraries( GLFW-CMake-starter ${OPENGL_LIBRARIES} glfw )

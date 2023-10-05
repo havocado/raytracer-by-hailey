@@ -1,6 +1,9 @@
 #include <GLFW/glfw3.h>
 #include <bits/stdc++.h>
 
+#include "vec3.h"
+#include "color.h"
+
 int main() {
     GLFWwindow* window;
 
