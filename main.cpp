@@ -31,25 +31,26 @@ int main() {
     ratio = (float)width / (float)height;
     std::cout << "framebuffer sizes: width " << width << ", height " << height << std::endl;
 
-    // Loop
-    while (!glfwWindowShouldClose(window)) {
-        glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
+    // Set background color to viewport
+    glViewport(0, 0, width, height);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-        // Begin mode: draw points
-        glBegin(GL_POINTS);
-        for (int i = 0; i < 2*width; i++) {
-            for (int j = 0; j < 2*height; j++) {
-                glColor3f((float)j/(float)height*0.5f,(float)i/(float)width*0.5f,1.f);
-                glVertex2f((float)j/(float)height-1.f,(float)i/(float)width-1.f);
-            }
+    // Begin mode: draw points
+    glBegin(GL_POINTS);
+    for (int i = 0; i < 2*width; i++) {
+        for (int j = 0; j < 2*height; j++) {
+            float NDC_x = (float)j/(float)height-1.f; // [-1, 1]
+            float NDC_y = (float)i/(float)width-1.f; // [-1, 1]
+            glColor3f((float)j/(float)height*0.5f,(float)i/(float)width*0.5f,1.f);
+            glVertex2f(NDC_x,NDC_y);
         }
-        glEnd();
-
-        // Swap front/back buffers
-        glfwSwapBuffers(window);
-        glfwPollEvents();
     }
+    // End mode: draw points
+    glEnd();
+
+    // Swap front/back buffers
+    glfwSwapBuffers(window);
+    glfwPollEvents();
 
     glfwDestroyWindow(window);
     glfwTerminate();
