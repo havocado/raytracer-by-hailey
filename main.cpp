@@ -4,6 +4,7 @@
 #include "vec3.h"
 #include "color.h"
 
+// Placeholder for raytracing.
 color getColorPlaceholder(const float& NDC_x, const float& NDC_y) {
     color c;
     c[0] = (NDC_x+1.f)*0.5f;
