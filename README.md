@@ -1,9 +1,9 @@
-# Hailey's GLFW side project
+# OpenGL side project - Raytracer
 
-I'm learning opengl!!
+TBD
 
 
-# Explanations from the original repo
+# Instructions from the original repo
 
 ## Getting the code
 
