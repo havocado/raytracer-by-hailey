@@ -3,6 +3,7 @@
 
 #include "vec3.h"
 #include "color.h"
+#include "cameraSpec.h"
 
 // Placeholder for raytracing.
 color getColorPlaceholder(const float& NDC_x, const float& NDC_y) {
@@ -13,6 +14,17 @@ color getColorPlaceholder(const float& NDC_x, const float& NDC_y) {
     return c;
 }
 
+color runRaytracing(const float& NDC_x, const float& NDC_y) {
+    color c;
+    // do something
+    return c;
+}
+
+std::pair<int, int> getWindowDim(const cameraSpec& camera, const int& numPixelWidth) {
+    return std::pair<int, int>(numPixelWidth,
+                               std::round((float)numPixelWidth * camera.sensorHeight / camera.sensorWidth));
+}
+
 int main() {
     GLFWwindow* window;
 
@@ -20,7 +32,18 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    const std::pair<int, int> windowDim(640, 480);
+    // Initialize Camera
+    std::cout << "Initializing Camera ......" << std::endl;
+    cameraSpec camera; // Use default constants
+
+    // User defined constants
+    const int numPixelWidth = 640; // Arbitrary
+
+    // Compute desired number of pixels
+    const std::pair<int, int> windowDim = getWindowDim(camera, numPixelWidth);
+
+    // Create window
+    std::cout << "Creating Window ......" << std::endl;
     window = glfwCreateWindow(windowDim.first, windowDim.second, "asdf", NULL, NULL);
     if (!window) {
         glfwTerminate();
@@ -29,9 +52,6 @@ int main() {
 
     // Make Context
     glfwMakeContextCurrent(window);
-
-    // Print something
-    std::cout << "Starting program" << std::endl;
 
     float ratio;
     int width, height;
@@ -44,20 +64,27 @@ int main() {
     glViewport(0, 0, width, height);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    // Raytracing loop
+    std::cout << "Starting Raytracing ......" << std::endl;
     // Begin mode: draw points
     glBegin(GL_POINTS);
     for (int i = 0; i < 2*width; i++) {
         for (int j = 0; j < 2*height; j++) {
+            // Compute NDC (Normalized Device Coordinates)
             float NDC_x = (float)j/(float)height-1.f; // [-1, 1]
             float NDC_y = (float)i/(float)width-1.f; // [-1, 1]
+
+            // Get color from NDC coordinates
             color c = getColorPlaceholder(NDC_x, NDC_y);
-            //glColor3f((float)j/(float)height*0.5f,(float)i/(float)width*0.5f,1.f);
+
+            // Draw point in color
             glColor3f(c.x(),c.y(),c.z());
             glVertex2f(NDC_x,NDC_y);
         }
     }
     // End mode: draw points
     glEnd();
+    std::cout << "Rendering done!" << std::endl;
 
     // Swap front/back buffers
     glfwSwapBuffers(window);
@@ -67,6 +94,9 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
     }
+
+    // Destroy window
+    std::cout << "Closing window ......" << std::endl;
 
     glfwDestroyWindow(window);
     glfwTerminate();
