@@ -24,6 +24,14 @@ public:
             }
         }
     }
+
+    void setPosition(const point3& pos) {
+        this->position = pos;
+    }
+    void movePosition(const point3& offset) {
+        this->position += offset;
+    }
+
     void rotateX(const float& theta) {
         // stub
     }
@@ -33,6 +41,8 @@ public:
     void rotateZ(const float& theta) {
         // stub
     }
+
+
 };
 
 #endif //CAMERA_H
