@@ -21,6 +21,9 @@ set( GLFW-CMAKE-STARTER-SRC
         color.h
         ray.h
         cameraSpec.h
+        hittableObject.h
+        sphere.h
+        collisionData.h
 )
      
 add_executable( GLFW-CMake-starter WIN32 ${GLFW-CMAKE-STARTER-SRC} )
