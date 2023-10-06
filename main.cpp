@@ -4,6 +4,20 @@
 #include "vec3.h"
 #include "color.h"
 
+// Placeholder for raytracing.
+color getColorPlaceholder(const float& NDC_x, const float& NDC_y) {
+    color c;
+    c[0] = (NDC_x+1.f)*0.5f;
+    c[1] = (NDC_y+1.f)*0.5f;
+    c[2] = 1.f;
+    return c;
+}
+
+std::pair<int, int> getWindowDim(const std::pair<float, float>& sensorDim, const int& numPixelWidth) {
+    return std::pair<int, int>(numPixelWidth,
+                               std::round((float)numPixelWidth * sensorDim.second / sensorDim.first));
+}
+
 int main() {
     GLFWwindow* window;
 
@@ -11,7 +25,13 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    const std::pair<int, int> windowDim(640, 480);
+    // User defined constants
+    const std::pair<float, float> sensorDim(2.36f, 1.56f); // APS-C Camera sensor size [cm]
+    const int numPixelWidth = 640; // Arbitrary
+
+    // Compute desired number of pixels
+    const std::pair<int, int> windowDim = getWindowDim(sensorDim, numPixelWidth);
+
     window = glfwCreateWindow(windowDim.first, windowDim.second, "asdf", NULL, NULL);
     if (!window) {
         glfwTerminate();
