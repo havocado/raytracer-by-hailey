@@ -41,8 +41,6 @@ public:
     void rotateZ(const float& theta) {
         // stub
     }
-
-
 };
 
 #endif //CAMERA_H
