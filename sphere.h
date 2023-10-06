@@ -54,8 +54,6 @@ public:
             return collisionData(false);
         }
     }
-
 };
-
 
 #endif //SPHERE_H

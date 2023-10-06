@@ -38,5 +38,4 @@ public:
     virtual collisionData rayCollisionPoint(const ray& r) = 0;
 };
 
-
 #endif //HITTABLEOBJECT_H
