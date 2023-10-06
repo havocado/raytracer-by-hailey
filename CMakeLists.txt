@@ -20,6 +20,7 @@ set( GLFW-CMAKE-STARTER-SRC
         vec3.h
         color.h
         ray.h
+        cameraSpec.h
 )
      
 add_executable( GLFW-CMake-starter WIN32 ${GLFW-CMAKE-STARTER-SRC} )
