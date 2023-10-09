@@ -33,3 +33,14 @@ From a command prompt in the `GLFW-CMake-starter` directory:
 1. `cmake ..` (for MinGW the build system generator needs to be specified using the -G option: `cmake .. -G "MinGW Makefiles"`)
 1. Either run `make all` or for Visual Studio open `GLFW-CMake-starter.sln` or for MinGW run `mingw32-make`
 
+# Troubleshooting
+
+## Logs not appearing when using Windows CLion
+
+Using this repo on Windows CLion seems to cause an issue related to runnerw.exe which shows as deprecated.
+
+There were 2 cases where this issue was addressed:
+- https://youtrack.jetbrains.com/issue/CPP-25836/runnerw.exe-AttachConsole-failed-with-error-6-The-handle-is-invalid.
+- https://youtrack.jetbrains.com/issue/CPP-25818/Logs-not-appearing-in-console-when-running-an-OpenGL-with-GLFW-project
+
+Disabling Registry key 'run.processes.with.pty' seems to solve the problem.
