@@ -1,33 +1,27 @@
 #ifndef HITTABLEOBJECT_H
 #define HITTABLEOBJECT_H
 
+#include <cstring>
 #include "vec3.h"
 #include "collisionData.h"
+#include "matrix3x3.h"
 
 class hittableObject {
 public:
     point3 position;
-    float rotationMatrix[3][3];
+    matrix3x3 rotationMatrix;
 
     // Bounding box should be implemented later
 
     hittableObject() {
         // initialize rotationMatrix with identity
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                rotationMatrix[i][j] = (i == j);
-            }
-        }
+        rotationMatrix = matrix3x3();
     }
 
-    hittableObject(const point3& pos, const float** rotMatrix) {
+    hittableObject(const point3& pos, const matrix3x3& rotMatrix) {
         this->position = pos;
         // Deep copy rotation matrix
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                rotationMatrix[i][j] = rotMatrix[i][j];
-            }
-        }
+        std::memcpy(&(this->rotationMatrix), &rotMatrix, sizeof(matrix3x3));
     }
 
     bool rayCollidesBoundingBox(const ray& r) {

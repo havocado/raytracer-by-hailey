@@ -6,20 +6,20 @@
 #include "ray.h"
 #include "hittableObject.h"
 
-class sphere: hittableObject {
+class sphere: public hittableObject {
 public:
     float radius;
 
     sphere(): hittableObject(), radius(1.f) {}
 
-    sphere(const point3& pos, const float** rotMatrix, const float& radius)
+    sphere(const point3& pos, const matrix3x3& rotMatrix, const float& radius)
         : hittableObject(pos, rotMatrix), radius(radius) {}
 
     void setRadius(const float& radius) {
         this->radius = radius;
     }
 
-    collisionData rayCollisionPoint(const ray& r) {
+    collisionData rayCollisionPoint(const ray& r) override {
         /* Ray-sphere intersection test.
          * Let ray: A+tB, sphere: center C, radius R. (all known except t)
          * Intersection condition: (A+tB-C)^2 = R^2
