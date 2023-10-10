@@ -20,7 +20,7 @@ color runRaytracing(const cameraSpec& camera, const std::vector<hittableObject*>
     // Compute outgoing ray
     // See documentation
     point3 rayOrigin = camera.position;
-    point3 A = point3(NDC_x, NDC_y, 1.f);
+    point3 A = point3(NDC_x, NDC_y, -1.f);
     point3 B = A * point3(camera.sensorWidth, camera.sensorHeight, camera.focal_length);
     point3 rayScreenDirection = B; // B rotated by camera.rotation. TODO: Implement matrix multiplication
     ray r(rayOrigin, rayScreenDirection);
@@ -36,7 +36,8 @@ color runRaytracing(const cameraSpec& camera, const std::vector<hittableObject*>
     // STUB: render the first object from collisions.
     // TODO: Include t in collisionData
     if (!collisions.empty()) {
-        return {0.f, 0.f, 1.f};
+        vec3 targetNormal = collisions[0].normal;
+        return 0.5f * (targetNormal + vec3(1.f, 1.f, 1.f));
     }
     else {
         return {0.f, 0.f, 0.f};
@@ -57,7 +58,7 @@ int main() {
 
     // Initialize objects
     std::vector<hittableObject*> objectList;
-    sphere sphere1(point3(0.f, 0.f, 1.3f), matrix3x3(), 0.5f);
+    sphere sphere1(point3(0.f, 0.f, -1.3f), matrix3x3(), 0.5f);
     objectList.push_back(&sphere1);
 
     // Initialize Camera

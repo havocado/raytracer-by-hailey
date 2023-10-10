@@ -19,6 +19,10 @@ public:
         this->radius = radius;
     }
 
+    vec3 getNormal(const point3& pt) {
+        return unit_vector(pt - this->position);
+    }
+
     collisionData rayCollisionPoint(const ray& r) override {
         /* Ray-sphere intersection test.
          * Let ray: A+tB, sphere: center C, radius R. (all known except t)
@@ -38,11 +42,11 @@ public:
             float larger_t = (firstTerm + secondTerm)/Bsq;
             if (smaller_t > 0.f) {
                 point3 location = r.at(smaller_t);
-                return collisionData(true, location);
+                return collisionData(true, location, this->getNormal(location));
             }
             else if (larger_t > 0.f) {
                 point3 location = r.at(larger_t);
-                return collisionData(true, location);
+                return collisionData(true, location, this->getNormal(location));
             }
             else {
                 return collisionData(false);
@@ -51,7 +55,7 @@ public:
         else if (termInsideSqrt == 0.f) {
             float t = (-1.f) * dot(r.direction(), r.origin() - this->position)/Bsq;
             point3 location = r.at(t);
-            return collisionData(true, location);
+            return collisionData(true, location, this->getNormal(location));
         }
         else { // (termInsideSqrt < 0.f)
             return collisionData(false);
