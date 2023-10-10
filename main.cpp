@@ -57,7 +57,7 @@ int main() {
 
     // Initialize objects
     std::vector<hittableObject*> objectList;
-    sphere sphere1(point3(0.f, 0.f, 1.1f), matrix3x3(), 1.f);
+    sphere sphere1(point3(0.f, 0.f, 1.3f), matrix3x3(), 0.5f);
     objectList.push_back(&sphere1);
 
     // Initialize Camera

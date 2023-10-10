@@ -23,22 +23,25 @@ public:
         /* Ray-sphere intersection test.
          * Let ray: A+tB, sphere: center C, radius R. (all known except t)
          * Intersection condition: (A+tB-C)^2 = R^2
-         * <=> t = B(A-C) + sqrt(B^2 * R^2)
-         *  or t = B(A-C) - sqrt(B^2 * R^2)
+         * <=> t = (-B(A-C) + sqrt( (B(A-C))^2 - B^2 ((A-C)^2-R^2) )) / B^2
+         *  or t = (-B(A-C) - sqrt( (B(A-C))^2 - B^2 ((A-C)^2-R^2) )) / B^2
          * We take the smallest positive t (unless DNE)
          * */
-        float termInsideSqrt = dot(r.direction(), r.direction()) * this->radius * this->radius;
+        float B_AC = dot(r.direction(), (r.origin() - this->position));
+        float Bsq = dot(r.direction(), r.direction());
+        float ACsq = dot(r.origin() - this->position, r.origin() - this->position);
+        float termInsideSqrt = B_AC*B_AC - Bsq*(ACsq - (this->radius * this->radius));
         if (termInsideSqrt > 0.f) {
-            float firstTerm = dot(r.direction(), (r.origin() - this->position));
+            float firstTerm = (-1.f) * dot(r.direction(), r.origin() - this->position);
             float secondTerm = std::sqrt(termInsideSqrt);
-            float smaller_t = firstTerm - secondTerm;
-            float larger_t = firstTerm + secondTerm;
+            float smaller_t = (firstTerm - secondTerm)/Bsq;
+            float larger_t = (firstTerm + secondTerm)/Bsq;
             if (smaller_t > 0.f) {
-                point3 location = r.origin() + smaller_t * r.direction();
+                point3 location = r.at(smaller_t);
                 return collisionData(true, location);
             }
             else if (larger_t > 0.f) {
-                point3 location = r.origin() + larger_t * r.direction();
+                point3 location = r.at(larger_t);
                 return collisionData(true, location);
             }
             else {
@@ -46,8 +49,8 @@ public:
             }
         }
         else if (termInsideSqrt == 0.f) {
-            point3 t = r.direction() * (r.origin() - this->position);
-            point3 location = r.origin() + t * r.direction();
+            float t = (-1.f) * dot(r.direction(), r.origin() - this->position)/Bsq;
+            point3 location = r.at(t);
             return collisionData(true, location);
         }
         else { // (termInsideSqrt < 0.f)
