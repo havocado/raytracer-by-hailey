@@ -14,5 +14,4 @@ public:
         : collided(collided), location(location) {}
 };
 
-
 #endif //COLLISIONDATA_H

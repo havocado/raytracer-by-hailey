@@ -2,12 +2,13 @@
 #define CAMERA_H
 
 #include "vec3.h"
+#include "matrix3x3.h"
 
 class cameraSpec {
 public:
     // Extrinsic
     point3 position; // xyz [meters]
-    float rotationMatrix[3][3]; // 3x3 matrix. This is temporary and should be replaced with quaternion in the future
+    matrix3x3 rotationMatrix;
 
     // Intrinsics
     float sensorWidth; // [meters]
@@ -16,13 +17,8 @@ public:
     float focal_length; // [meters]
 
     // Use APS-C Camera standard when params not specified
-    cameraSpec(): sensorWidth(2.36f), sensorHeight(1.56f), focal_length(23.3f) {
-        // initialize rotationMatrix with identity
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                rotationMatrix[i][j] = (i == j);
-            }
-        }
+    cameraSpec(): sensorWidth(0.0236f), sensorHeight(0.0156f), focal_length(0.0233f) {
+        this->aspect_ratio = (this->sensorWidth)/(this->sensorHeight);
     }
 
     void setPosition(const point3& pos) {
@@ -41,6 +37,8 @@ public:
     void rotateZ(const float& theta) {
         // stub
     }
+private:
+    float aspect_ratio;
 };
 
 #endif //CAMERA_H
