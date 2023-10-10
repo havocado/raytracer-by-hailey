@@ -20,7 +20,7 @@ public:
     }
 
     vec3 getNormal(const point3& pt) {
-        return (pt - this->position);
+        return unit_vector(pt - this->position);
     }
 
     collisionData rayCollisionPoint(const ray& r) override {
