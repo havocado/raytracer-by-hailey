@@ -25,6 +25,8 @@ set( GLFW-CMAKE-STARTER-SRC
         sphere.h
         collisionData.h
         matrix3x3.h
+        Mesh.h
+        Cube.h
 )
      
 add_executable( GLFW-CMake-starter WIN32 ${GLFW-CMAKE-STARTER-SRC} )
