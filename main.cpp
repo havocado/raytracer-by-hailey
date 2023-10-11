@@ -5,6 +5,7 @@
 #include "color.h"
 #include "cameraSpec.h"
 #include "sphere.h"
+#include "Cube.h"
 #include "hittableObject.h"
 
 // Placeholder for raytracing.
@@ -40,7 +41,7 @@ color runRaytracing(const cameraSpec& camera, const std::vector<hittableObject*>
         return 0.5f * (targetNormal + vec3(1.f, 1.f, 1.f));
     }
     else {
-        return {0.f, 0.f, 0.f};
+        return {0.5f, 0.5f, 0.5f};
     }
 }
 
@@ -58,8 +59,10 @@ int main() {
 
     // Initialize objects
     std::vector<hittableObject*> objectList;
-    sphere sphere1(point3(0.f, 0.f, -1.3f), matrix3x3(), 0.5f);
-    objectList.push_back(&sphere1);
+    /*sphere sphere1(point3(0.f, 0.f, -1.3f), matrix3x3(), 0.5f);
+    objectList.push_back(&sphere1);*/
+    Cube cube1(point3(0.f, 0.f, -1.3f), matrix3x3(), 0.5f, 0.6f, 0.3f);
+    objectList.push_back(&cube1);
 
     // Initialize Camera
     std::cout << "Initializing Camera ......" << std::endl;

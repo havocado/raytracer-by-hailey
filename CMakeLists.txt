@@ -27,6 +27,7 @@ set( GLFW-CMAKE-STARTER-SRC
         matrix3x3.h
         Mesh.h
         Cube.h
+        Mesh.cpp
 )
      
 add_executable( GLFW-CMake-starter WIN32 ${GLFW-CMAKE-STARTER-SRC} )

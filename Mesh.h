@@ -2,10 +2,11 @@
 #define MESH_H
 
 #include <vector>
+#include "vec3.h"
 #include "hittableObject.h"
 #include "ray.h"
+#include "collisionData.h"
 
-class Mesh;
 class Face;
 
 class Mesh: public hittableObject {
@@ -17,21 +18,15 @@ public:
 
     Mesh(const point3& pos, const matrix3x3& rotMatrix): hittableObject(pos, rotMatrix) {}
 
-    void addVertex(const point3& vertexPosition) {
-        vertices.push_back(vertexPosition);
-    }
+    void addVertex(const point3& vertexPosition);
 
-    void addFace(const Face& face) {
-        faces.push_back(face);
-    }
+    void addVertex(const float& v0, const float& v1, const float& v2);
 
-    void addFace(const int& vInd0, const int& vInd1, const int& vInd2) {
-        faces.emplace_back(vInd0, vInd1, vInd2);
-    }
+    void addFace(const Face& face);
 
-    collisionData rayCollisionPoint(const ray& r) {
+    void addFace(const int& vInd0, const int& vInd1, const int& vInd2);
 
-    }
+    collisionData rayCollisionPoint(const ray& r);
 };
 
 class Face {
@@ -43,21 +38,9 @@ public:
     float coeff; // plane equation: dot(normal, point)+coeff == 0
 
     // Counterclockwise order
-    Face(const int& vInd0, const int& vInd1, const int& vInd2) {
-        vertexIndices.push_back(vInd0);
-        vertexIndices.push_back(vInd1);
-        vertexIndices.push_back(vInd2);
-        // Computing normal: cross product of two edges
-        vec3 e1 = this->mesh->vertices[vInd1] - this->mesh->vertices[vInd0];
-        vec3 e2 = this->mesh->vertices[vInd2] - this->mesh->vertices[vInd1];
-        this->normal = unit_vector(cross(e1, e2));
-        // Precomputing coefficient.
-        // This is from plane equation: dot(normal,point)+coeff == 0
-        // also known as D from plane equation Ax+By+Cz+D==0
-        this->coeff = (-1.f) * dot(this->normal, this->mesh->vertices[vInd1]);
-    }
+    Face(const int& vInd0, const int& vInd1, const int& vInd2, Mesh* mesh);
 
-    collisionData rayCollisionPoint(const ray& )
+    collisionData rayCollisionPoint(const ray& r);
 };
 
 #endif //MESH_H
