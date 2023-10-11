@@ -3,7 +3,6 @@
 #include "ray.h"
 #include "collisionData.h"
 
-
 void Mesh::addVertex(const point3& vertexPosition) {
     vertices.push_back(vertexPosition);
 }
@@ -54,15 +53,31 @@ Face::Face(const int& vInd0, const int& vInd1, const int& vInd2, Mesh* mesh) {
     // Precomputing coefficient.
     // This is from plane equation: dot(normal,point)+coeff == 0
     // also known as D from plane equation Ax+By+Cz+D==0
-    this->coeff = (-1.f) * dot(this->normal, this->mesh->vertices[vInd1]);
+    // TODO: Apply transformation
+    this->coeff = (-1.f) * dot(this->normal, this->mesh->vertices[vInd0]+this->mesh->position);
 }
 
 collisionData Face::rayCollisionPoint(const ray& r) {
-    float t = (dot(this->normal, r.origin()) + this->coeff) / (dot(this->normal, r.direction()));
+    // TODO: Apply transformation
+    point3 A = this->mesh->vertices[this->vertexIndices[0]] + this->mesh->position;
+    point3 B = this->mesh->vertices[this->vertexIndices[1]] + this->mesh->position;
+    point3 C = this->mesh->vertices[this->vertexIndices[2]] + this->mesh->position;
+    // Get t for plane-ray intersection point
+    float t = (-1.f) * (dot(this->normal, r.origin()) + this->coeff) / (dot(this->normal, r.direction()));
     if (t > 0.f) {
-        return {true, r, t, this->normal};
+        // Test if intersection point is within the triangle
+        // Check if all barycentric coordinates are positive
+        // Note: triangle intersection check can be simpler, I am using barycentric coordinates for later.
+        point3 location = r.at(t);
+
+        float denom = dot(cross(B-A, C-A), normal);
+        float alpha = dot(cross(C-B, location-B), normal) / denom;
+        float beta = dot(cross(A-C, location-C), normal) / denom;
+        float gamma = dot(cross(B-A, location-A), normal) / denom;
+
+        if (alpha >= 0.f && beta >= 0.f && gamma >= 0.f) {
+            return {true, r, t, this->normal};
+        }
     }
-    else {
-        return {false};
-    }
+    return {false};
 }
