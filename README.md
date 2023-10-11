@@ -2,6 +2,10 @@
 
 TBD
 
+## Coordinates
+
+![image](https://github.com/havocado/obj-raytracer/assets/47484587/4d144417-1e66-4439-a29c-900eeaf34bdc)
+
 
 # Instructions from the original repo
 
