@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "hittableObject.h"
+#include "vec3.h"
 
 class Mesh;
 class Halfedge;
@@ -49,17 +50,25 @@ public:
 
     Vertex(const point3& position, const point3& normal)
             : position(position), normal(normal) {}
+
+    // When normal not specified, normal is same as position
+    Vertex(const point3& position)
+            : position(position), normal(unit_vector(position)) {}
 };
 
 class Edge {
 public:
     Halfedge* halfedge;
+
+    Edge() {}
 };
 
 class Face {
 public:
     Halfedge* halfedge;
     vec3 normal;
+
+    Face
 };
 
 

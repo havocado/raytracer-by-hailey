@@ -21,8 +21,18 @@ public:
 
 private:
     void initMesh(const float& dimX, const float& dimY, const float& dimZ) {
+        // See https://github.com/havocado/obj-raytracer/blob/main/implementation-details.md
         this->v.reserve(8);
-        this->v.emplace_back(point3(-0.5f, -0.));
+        this->v.push_back(new Vertex(point3(-0.5f, -0.5f, 0.5f)));
+        this->v.push_back(new Vertex(point3(0.5f, -0.5f, 0.5f)));
+        this->v.push_back(new Vertex(point3(-0.5f, -0.5f, -0.5f)));
+        this->v.push_back(new Vertex(point3(0.5f, -0.5f, -0.5f)));
+        this->v.push_back(new Vertex(point3(-0.5f, 0.5f, 0.5f)));
+        this->v.push_back(new Vertex(point3(0.5f, 0.5f, 0.5f)));
+        this->v.push_back(new Vertex(point3(-0.5f, 0.5f, -0.5f)));
+        this->v.push_back(new Vertex(point3(0.5f, 0.5f, -0.5f)));
+
+        this->f.push_back(new Face())
     }
 };
 
