@@ -6,6 +6,11 @@ TBD
 
 ![image](https://github.com/havocado/obj-raytracer/assets/47484587/4d144417-1e66-4439-a29c-900eeaf34bdc)
 
+### Cube
+
+![image](https://github.com/havocado/obj-raytracer/assets/47484587/2421b359-1cdd-4ec4-9022-957c8e2746dc)
+
+
 
 # Instructions from the original repo
 
