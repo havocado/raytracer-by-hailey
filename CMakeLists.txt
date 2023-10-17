@@ -18,16 +18,16 @@ endif()
 set( GLFW-CMAKE-STARTER-SRC
      main.cpp
         vec3.h
-        color.h
+        Color.h
         ray.h
         cameraSpec.h
         hittableObject.h
         sphere.h
         collisionData.h
         matrix3x3.h
-        Mesh.h
-        Cube.h
-        Mesh.cpp
+        mesh.h
+        cube.h
+        mesh.cpp
 )
      
 add_executable( GLFW-CMake-starter WIN32 ${GLFW-CMAKE-STARTER-SRC} )

@@ -6,30 +6,30 @@
 #include "collisionData.h"
 #include "matrix3x3.h"
 
-class hittableObject {
+class HittableObject {
 public:
-    point3 position;
-    matrix3x3 rotationMatrix;
+    Point3 position;
+    Matrix3x3 rotationMatrix;
 
     // Bounding box should be implemented later
 
-    hittableObject() {
+    HittableObject() {
         // initialize rotationMatrix with identity
-        rotationMatrix = matrix3x3();
+        rotationMatrix = Matrix3x3();
     }
 
-    hittableObject(const point3& pos, const matrix3x3& rotMatrix) {
+    HittableObject(const Point3& pos, const Matrix3x3& rotMatrix) {
         this->position = pos;
         // Deep copy rotation matrix
-        std::memcpy(&(this->rotationMatrix), &rotMatrix, sizeof(matrix3x3));
+        std::memcpy(&(this->rotationMatrix), &rotMatrix, sizeof(Matrix3x3));
     }
 
-    bool rayCollidesBoundingBox(const ray& r) {
+    bool rayCollidesBoundingBox(const Ray& r) {
         // STUB - Bounding box should be implemented later
         return true;
     }
 
-    virtual collisionData rayCollisionPoint(const ray& r) = 0;
+    virtual CollisionData rayCollisionPoint(const Ray& r) = 0;
 };
 
 #endif //HITTABLEOBJECT_H

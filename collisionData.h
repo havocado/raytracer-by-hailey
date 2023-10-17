@@ -5,19 +5,19 @@
 #include "vec3.h"
 #include "ray.h"
 
-class collisionData {
+class CollisionData {
 public:
     bool collided; // Important!! Below info are all garbage if this variable is false
     float t;
-    vec3 normal;
-    ray r;
+    Vec3 normal;
+    Ray r;
     // Constructor for when collided==true
-    collisionData(const bool& collided, const ray& r, const float& t, const vec3& normal)
+    CollisionData(const bool& collided, const Ray& r, const float& t, const Vec3& normal)
             : collided(collided), r(r), t(t), normal(normal) {}
     // Constructor for when collided==false (omit collision location)
-    collisionData(const bool& collided=false): collided(collided) {}
+    CollisionData(const bool& collided=false): collided(collided) {}
 
-    point3 location() const {
+    Point3 location() const {
         if (!collided) {
             std::cout << "Warning: location information called for placeholder collisionData" << std::endl;
             return {};

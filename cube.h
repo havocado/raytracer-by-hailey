@@ -2,7 +2,7 @@
 #define CUBE_H
 
 #include "vec3.h"
-#include "Mesh.h"
+#include "mesh.h"
 
 class Cube: public Mesh {
 public:
@@ -10,7 +10,7 @@ public:
 
     Cube(): Mesh() { initMesh(1.f, 1.f, 1.f); }
 
-    Cube(const point3& pos, const matrix3x3& rotMatrix): Mesh(pos, rotMatrix) {
+    Cube(const Point3& pos, const Matrix3x3& rotMatrix): Mesh(pos, rotMatrix) {
         initMesh(1.f, 1.f, 1.f);
     }
 
@@ -18,7 +18,7 @@ public:
         initMesh(dimX, dimY, dimZ);
     }
 
-    Cube(const point3& pos, const matrix3x3& rotMatrix,
+    Cube(const Point3& pos, const Matrix3x3& rotMatrix,
          const float& dimX, const float& dimY, const float& dimZ)
         : Mesh(pos, rotMatrix) {
         initMesh(dimX, dimY, dimZ);
