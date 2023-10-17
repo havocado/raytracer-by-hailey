@@ -17,18 +17,19 @@ color runRaytracing(const cameraSpec& camera, const std::vector<hittableObject*>
     point3 rayScreenDirection = B; // B rotated by camera.rotation. TODO: Implement matrix multiplication
     ray r(rayOrigin, rayScreenDirection);
 
-    // Compute collision
-    std::vector<collisionData> collisions;
+    // Compute closest collision
+    collisionData closestCollision(false);
     for (auto hittable : objectList) {
         collisionData coll = hittable->rayCollisionPoint(r);
-        if (coll.collided) {
-            collisions.push_back(coll);
+        if (!coll.collided) {
+            continue;
+        }
+        if (!closestCollision.collided || coll.t < closestCollision.t) {
+            closestCollision = coll;
         }
     }
-    // STUB: render the first object from collisions.
-    // TODO: Include t in collisionData
-    if (!collisions.empty()) {
-        vec3 targetNormal = collisions[0].normal;
+    if (closestCollision.collided) {
+        vec3 targetNormal = closestCollision.normal;
         return 0.5f * (targetNormal + vec3(1.f, 1.f, 1.f));
     }
     else {
@@ -50,10 +51,12 @@ int main() {
 
     // Initialize objects
     std::vector<hittableObject*> objectList;
-    /*sphere sphere1(point3(0.f, 0.f, -1.3f), matrix3x3(), 0.5f);
-    objectList.push_back(&sphere1);*/
-    Cube cube1(point3(0.f, 0.f, -2.3f), matrix3x3(), 0.5f, 0.6f, 0.3f);
+    sphere sphere1(point3(0.f, 0.f, -1.3f), matrix3x3(), 0.5f);
+    objectList.push_back(&sphere1);
+    Cube cube1(point3(1.f, 0.f, -1.3f), matrix3x3(), 0.5f, 0.6f, 0.3f);
     objectList.push_back(&cube1);
+    Cube cube2(point3(-0.7f, 0.f, -1.1f), matrix3x3(), 0.7f, 0.6f, 0.3f);
+    objectList.push_back(&cube2);
 
     // Initialize Camera
     std::cout << "Initializing Camera ......" << std::endl;
@@ -110,8 +113,8 @@ int main() {
     std::cout << "Rendering done!" << std::endl;
 
     // Swap front/back buffers
-    glfwSwapBuffers(window);
     glfwPollEvents();
+    glfwSwapBuffers(window);
 
     // Wait until the window is closed
     while (!glfwWindowShouldClose(window)) {
