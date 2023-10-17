@@ -2,25 +2,25 @@
 #include <bits/stdc++.h>
 
 #include "vec3.h"
-#include "color.h"
+#include "Color.h"
 #include "cameraSpec.h"
 #include "sphere.h"
-#include "Cube.h"
+#include "cube.h"
 #include "hittableObject.h"
 
-color runRaytracing(const cameraSpec& camera, const std::vector<hittableObject*>& objectList, const float& NDC_x, const float& NDC_y) {
+Color runRaytracing(const CameraSpec& camera, const std::vector<HittableObject*>& objectList, const float& NDC_x, const float& NDC_y) {
     // Compute outgoing ray
     // See documentation
-    point3 rayOrigin = camera.position;
-    point3 A = point3(NDC_x, NDC_y, -1.f);
-    point3 B = A * point3(camera.sensorWidth, camera.sensorHeight, camera.focal_length);
-    point3 rayScreenDirection = B; // B rotated by camera.rotation. TODO: Implement matrix multiplication
-    ray r(rayOrigin, rayScreenDirection);
+    Point3 rayOrigin = camera.position;
+    Point3 A = Point3(NDC_x, NDC_y, -1.f);
+    Point3 B = A * Point3(camera.sensorWidth, camera.sensorHeight, camera.focal_length);
+    Point3 rayScreenDirection = B; // B rotated by camera.rotation. TODO: Implement matrix multiplication
+    Ray r(rayOrigin, rayScreenDirection);
 
     // Compute closest collision
-    collisionData closestCollision(false);
+    CollisionData closestCollision(false);
     for (auto hittable : objectList) {
-        collisionData coll = hittable->rayCollisionPoint(r);
+        CollisionData coll = hittable->rayCollisionPoint(r);
         if (!coll.collided) {
             continue;
         }
@@ -29,15 +29,15 @@ color runRaytracing(const cameraSpec& camera, const std::vector<hittableObject*>
         }
     }
     if (closestCollision.collided) {
-        vec3 targetNormal = closestCollision.normal;
-        return 0.5f * (targetNormal + vec3(1.f, 1.f, 1.f));
+        Vec3 targetNormal = closestCollision.normal;
+        return 0.5f * (targetNormal + Vec3(1.f, 1.f, 1.f));
     }
     else {
         return {0.5f, 0.5f, 0.5f};
     }
 }
 
-std::pair<int, int> getWindowDim(const cameraSpec& camera, const int& numPixelWidth) {
+std::pair<int, int> getWindowDim(const CameraSpec& camera, const int& numPixelWidth) {
     return std::pair<int, int>(numPixelWidth,
                                std::round((float)numPixelWidth * camera.sensorHeight / camera.sensorWidth));
 }
@@ -50,17 +50,17 @@ int main() {
     }
 
     // Initialize objects
-    std::vector<hittableObject*> objectList;
-    sphere sphere1(point3(0.f, 0.f, -1.3f), matrix3x3(), 0.5f);
+    std::vector<HittableObject*> objectList;
+    Sphere sphere1(Point3(0.f, 0.f, -1.3f), Matrix3x3(), 0.5f);
     objectList.push_back(&sphere1);
-    Cube cube1(point3(1.f, 0.f, -1.3f), matrix3x3(), 0.5f, 0.6f, 0.3f);
+    Cube cube1(Point3(1.f, 0.f, -1.3f), Matrix3x3(), 0.5f, 0.6f, 0.3f);
     objectList.push_back(&cube1);
-    Cube cube2(point3(-0.7f, 0.f, -1.1f), matrix3x3(), 0.7f, 0.6f, 0.3f);
+    Cube cube2(Point3(-0.7f, 0.f, -1.1f), Matrix3x3(), 0.7f, 0.6f, 0.3f);
     objectList.push_back(&cube2);
 
     // Initialize Camera
     std::cout << "Initializing Camera ......" << std::endl;
-    cameraSpec camera; // Use default constants
+    CameraSpec camera; // Use default constants
 
     // User defined constants
     const int numPixelWidth = 640; // Arbitrary
@@ -101,7 +101,7 @@ int main() {
             float NDC_y = (float)i/(float)width-1.f; // [-1, 1]
 
             // Get color from NDC coordinates
-            color c = runRaytracing(camera, objectList, NDC_x, NDC_y);
+            Color c = runRaytracing(camera, objectList, NDC_x, NDC_y);
 
             // Draw point in color
             glColor3f(c.x(),c.y(),c.z());

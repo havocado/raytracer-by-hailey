@@ -1,9 +1,9 @@
-#include "Mesh.h"
+#include "mesh.h"
 #include "vec3.h"
 #include "ray.h"
 #include "collisionData.h"
 
-void Mesh::addVertex(const point3& vertexPosition) {
+void Mesh::addVertex(const Point3& vertexPosition) {
     vertices.push_back(vertexPosition);
 }
 
@@ -19,13 +19,13 @@ void Mesh::addFace(const int& vInd0, const int& vInd1, const int& vInd2) {
     faces.emplace_back(vInd0, vInd1, vInd2, this);
 }
 
-collisionData Mesh::rayCollisionPoint(const ray& r) {
+CollisionData Mesh::rayCollisionPoint(const Ray& r) {
     // Return collision with minimum t
     bool collided = false;
     float min_t = RAY_T_MAX;
-    collisionData closestCollision;
+    CollisionData closestCollision;
     for (auto & face : this->faces) {
-        collisionData coll = face.rayCollisionPoint(r);
+        CollisionData coll = face.rayCollisionPoint(r);
         if (coll.collided && coll.t < min_t) {
             collided = true;
             min_t = coll.t;
@@ -47,8 +47,8 @@ Face::Face(const int& vInd0, const int& vInd1, const int& vInd2, Mesh* mesh) {
     vertexIndices.push_back(vInd1);
     vertexIndices.push_back(vInd2);
     // Computing normal: cross product of two edges
-    vec3 e1 = this->mesh->vertices[vInd1] - this->mesh->vertices[vInd0];
-    vec3 e2 = this->mesh->vertices[vInd2] - this->mesh->vertices[vInd1];
+    Vec3 e1 = this->mesh->vertices[vInd1] - this->mesh->vertices[vInd0];
+    Vec3 e2 = this->mesh->vertices[vInd2] - this->mesh->vertices[vInd1];
     this->normal = unit_vector(cross(e1, e2));
     // Precomputing coefficient.
     // This is from plane equation: dot(normal,point)+coeff == 0
@@ -57,18 +57,18 @@ Face::Face(const int& vInd0, const int& vInd1, const int& vInd2, Mesh* mesh) {
     this->coeff = (-1.f) * dot(this->normal, this->mesh->vertices[vInd0]+this->mesh->position);
 }
 
-collisionData Face::rayCollisionPoint(const ray& r) {
+CollisionData Face::rayCollisionPoint(const Ray& r) {
     // TODO: Apply transformation
-    point3 A = this->mesh->vertices[this->vertexIndices[0]] + this->mesh->position;
-    point3 B = this->mesh->vertices[this->vertexIndices[1]] + this->mesh->position;
-    point3 C = this->mesh->vertices[this->vertexIndices[2]] + this->mesh->position;
+    Point3 A = this->mesh->vertices[this->vertexIndices[0]] + this->mesh->position;
+    Point3 B = this->mesh->vertices[this->vertexIndices[1]] + this->mesh->position;
+    Point3 C = this->mesh->vertices[this->vertexIndices[2]] + this->mesh->position;
     // Get t for plane-ray intersection point
     float t = (-1.f) * (dot(this->normal, r.origin()) + this->coeff) / (dot(this->normal, r.direction()));
     if (t > 0.f) {
         // Test if intersection point is within the triangle
         // Check if all barycentric coordinates are positive
         // Note: triangle intersection check can be simpler, I am using barycentric coordinates for later.
-        point3 location = r.at(t);
+        Point3 location = r.at(t);
 
         float denom = dot(cross(B-A, C-A), normal);
         float alpha = dot(cross(C-B, location-B), normal) / denom;

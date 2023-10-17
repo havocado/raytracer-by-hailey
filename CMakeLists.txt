@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.1 )
 
-project( GLFW-CMake-starter )
+project( raytracer-by-hailey )
 
 find_package( OpenGL REQUIRED )
 
@@ -15,7 +15,7 @@ if( MSVC )
     SET( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /ENTRY:mainCRTStartup" )
 endif()
 
-set( GLFW-CMAKE-STARTER-SRC
+set( RAYTRACER-BY-HAILEY-SRC
      main.cpp
         vec3.h
         color.h
@@ -25,17 +25,17 @@ set( GLFW-CMAKE-STARTER-SRC
         sphere.h
         collisionData.h
         matrix3x3.h
-        Mesh.h
-        Cube.h
-        Mesh.cpp
+        mesh.h
+        cube.h
+        mesh.cpp
 )
      
-add_executable( GLFW-CMake-starter WIN32 ${GLFW-CMAKE-STARTER-SRC} )
-target_link_libraries( GLFW-CMake-starter ${OPENGL_LIBRARIES} glfw )
+add_executable( raytracer-by-hailey WIN32 ${RAYTRACER-BY-HAILEY-SRC} )
+target_link_libraries( raytracer-by-hailey ${OPENGL_LIBRARIES} glfw )
 if( MSVC )
     if(${CMAKE_VERSION} VERSION_LESS "3.6.0") 
-        message( "\n\t[ WARNING ]\n\n\tCMake version lower than 3.6.\n\n\t - Please update CMake and rerun; OR\n\t - Manually set 'GLFW-CMake-starter' as StartUp Project in Visual Studio.\n" )
+        message( "\n\t[ WARNING ]\n\n\tCMake version lower than 3.6.\n\n\t - Please update CMake and rerun; OR\n\t - Manually set 'raytracer-by-hailey' as StartUp Project in Visual Studio.\n" )
     else()
-        set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT GLFW-CMake-starter )
+        set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT raytracer-by-hailey )
     endif()
 endif()

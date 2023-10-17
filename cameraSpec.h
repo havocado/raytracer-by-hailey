@@ -4,11 +4,11 @@
 #include "vec3.h"
 #include "matrix3x3.h"
 
-class cameraSpec {
+class CameraSpec {
 public:
     // Extrinsic
-    point3 position; // xyz [meters]
-    matrix3x3 rotationMatrix;
+    Point3 position; // xyz [meters]
+    Matrix3x3 rotationMatrix;
 
     // Intrinsics
     float sensorWidth; // [meters]
@@ -17,14 +17,14 @@ public:
     float focal_length; // [meters]
 
     // Use APS-C Camera standard when params not specified
-    cameraSpec(): sensorWidth(0.0236f), sensorHeight(0.0156f), focal_length(0.0233f) {
+    CameraSpec(): sensorWidth(0.0236f), sensorHeight(0.0156f), focal_length(0.0233f) {
         this->aspect_ratio = (this->sensorWidth)/(this->sensorHeight);
     }
 
-    void setPosition(const point3& pos) {
+    void setPosition(const Point3& pos) {
         this->position = pos;
     }
-    void movePosition(const point3& offset) {
+    void movePosition(const Point3& offset) {
         this->position += offset;
     }
 

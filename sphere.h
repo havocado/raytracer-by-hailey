@@ -6,24 +6,24 @@
 #include "ray.h"
 #include "hittableObject.h"
 
-class sphere: public hittableObject {
+class Sphere: public HittableObject {
 public:
     float radius;
 
-    sphere(): hittableObject(), radius(1.f) {}
+    Sphere(): HittableObject(), radius(1.f) {}
 
-    sphere(const point3& pos, const matrix3x3& rotMatrix, const float& radius)
-        : hittableObject(pos, rotMatrix), radius(radius) {}
+    Sphere(const Point3& pos, const Matrix3x3& rotMatrix, const float& radius)
+        : HittableObject(pos, rotMatrix), radius(radius) {}
 
     void setRadius(const float& radius) {
         this->radius = radius;
     }
 
-    vec3 getNormal(const point3& pt) {
+    Vec3 getNormal(const Point3& pt) {
         return unit_vector(pt - this->position);
     }
 
-    collisionData rayCollisionPoint(const ray& r) override {
+    CollisionData rayCollisionPoint(const Ray& r) override {
         /* Ray-sphere intersection test.
          * Let ray: A+tB, sphere: center C, radius R. (all known except t)
          * Intersection condition: (A+tB-C)^2 = R^2
@@ -41,24 +41,24 @@ public:
             float smaller_t = (firstTerm - secondTerm)/Bsq;
             float larger_t = (firstTerm + secondTerm)/Bsq;
             if (smaller_t > 0.f) {
-                point3 location = r.at(smaller_t);
-                return collisionData(true, r, smaller_t, this->getNormal(location));
+                Point3 location = r.at(smaller_t);
+                return {true, r, smaller_t, this->getNormal(location)};
             }
             else if (larger_t > 0.f) {
-                point3 location = r.at(larger_t);
-                return collisionData(true, r, larger_t, this->getNormal(location));
+                Point3 location = r.at(larger_t);
+                return {true, r, larger_t, this->getNormal(location)};
             }
             else {
-                return collisionData(false);
+                return {false};
             }
         }
         else if (termInsideSqrt == 0.f) {
             float t = (-1.f) * dot(r.direction(), r.origin() - this->position)/Bsq;
-            point3 location = r.at(t);
-            return collisionData(true, r, t, this->getNormal(location));
+            Point3 location = r.at(t);
+            return {true, r, t, this->getNormal(location)};
         }
         else { // (termInsideSqrt < 0.f)
-            return collisionData(false);
+            return {false};
         }
     }
 };

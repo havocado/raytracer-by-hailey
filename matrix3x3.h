@@ -1,12 +1,12 @@
 #ifndef MATRIX3X3_H
 #define MATRIX3X3_H
 
-class matrix3x3 {
+class Matrix3x3 {
 public:
     float e[3][3];
 
     // Constructor returns identity matrix
-    matrix3x3() {
+    Matrix3x3() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 e[i][j] = (i == j);
