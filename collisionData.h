@@ -1,6 +1,7 @@
 #ifndef COLLISIONDATA_H
 #define COLLISIONDATA_H
 
+#include <iostream>
 #include "vec3.h"
 #include "ray.h"
 
@@ -15,6 +16,14 @@ public:
             : collided(collided), r(r), t(t), normal(normal) {}
     // Constructor for when collided==false (omit collision location)
     collisionData(const bool& collided=false): collided(collided) {}
+
+    point3 location() const {
+        if (!collided) {
+            std::cout << "Warning: location information called for placeholder collisionData" << std::endl;
+            return {};
+        }
+        return r.at(t);
+    }
 };
 
 #endif //COLLISIONDATA_H
