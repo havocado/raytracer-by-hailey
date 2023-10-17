@@ -30,7 +30,7 @@ set( RAYTRACER-BY-HAILEY-SRC
         mesh.cpp
 )
      
-add_executable( raytracer-by-hailey WIN32 ${RAYTRACER-BY-HAILEY} )
+add_executable( raytracer-by-hailey WIN32 ${RAYTRACER-BY-HAILEY-SRC} )
 target_link_libraries( raytracer-by-hailey ${OPENGL_LIBRARIES} glfw )
 if( MSVC )
     if(${CMAKE_VERSION} VERSION_LESS "3.6.0") 
