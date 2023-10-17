@@ -18,7 +18,7 @@ endif()
 set( GLFW-CMAKE-STARTER-SRC
      main.cpp
         vec3.h
-        Color.h
+        color.h
         ray.h
         cameraSpec.h
         hittableObject.h
