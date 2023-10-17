@@ -7,6 +7,8 @@
 
 #include "vec3.h"
 
+const float RAY_T_MAX = 1e30;
+
 class ray {
 public:
     ray() {}

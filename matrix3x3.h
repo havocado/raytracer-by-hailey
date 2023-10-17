@@ -14,10 +14,10 @@ public:
         }
     }
 };
-
+/*
 matrix3x3 identity3x3() {
     return matrix3x3();
-}
+}*/
 
 // TODO: Make rotation matrix functions
 
