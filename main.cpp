@@ -8,15 +8,6 @@
 #include "Cube.h"
 #include "hittableObject.h"
 
-// Placeholder for raytracing.
-color getColorPlaceholder(const float& NDC_x, const float& NDC_y) {
-    color c;
-    c[0] = (NDC_x+1.f)*0.5f;
-    c[1] = (NDC_y+1.f)*0.5f;
-    c[2] = 1.f;
-    return c;
-}
-
 color runRaytracing(const cameraSpec& camera, const std::vector<hittableObject*>& objectList, const float& NDC_x, const float& NDC_y) {
     // Compute outgoing ray
     // See documentation
