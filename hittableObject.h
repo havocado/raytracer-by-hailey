@@ -30,6 +30,11 @@ public:
     }
 
     virtual CollisionData rayCollisionPoint(const Ray& r) = 0;
+
+protected:
+    Vec3 localToWorld(const Vec3& v) {
+        return this->rotationMatrix * v + this->position;
+    }
 };
 
 #endif //HITTABLEOBJECT_H
