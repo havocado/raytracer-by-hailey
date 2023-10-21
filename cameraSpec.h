@@ -24,18 +24,31 @@ public:
     void setPosition(const Point3& pos) {
         this->position = pos;
     }
+
+    void moveX(const float& deltaX) {
+        this->movePosition({deltaX, 0.f, 0.f});
+    }
+
+    void moveY(const float& deltaY) {
+        this->movePosition({0.f, deltaY, 0.f});
+    }
+
+    void moveZ(const float& deltaZ) {
+        this->movePosition({0.f, 0.f, deltaZ});
+    }
+
     void movePosition(const Point3& offset) {
         this->position += offset;
     }
 
     void rotateX(const float& theta) {
-        // stub
+        this->rotationMatrix = rotationX(theta) * this->rotationMatrix;
     }
     void rotateY(const float& theta) {
-        // stub
+        this->rotationMatrix = rotationY(theta) * this->rotationMatrix;
     }
     void rotateZ(const float& theta) {
-        // stub
+        this->rotationMatrix = rotationZ(theta) * this->rotationMatrix;
     }
 private:
     float aspect_ratio;
