@@ -42,6 +42,37 @@ CollisionData Mesh::rayCollisionPoint(const Ray& r) {
     }
 }
 
+void Mesh::rotateX(const float& theta) {
+    this->rotationMatrix = rotationX(theta) * this->rotationMatrix;
+    this->precomputeWorldCoords();
+    this->precomputeFaceProperties();
+}
+
+void Mesh::rotateY(const float& theta) {
+    this->rotationMatrix = rotationY(theta) * this->rotationMatrix;
+    this->precomputeWorldCoords();
+    this->precomputeFaceProperties();
+}
+
+void Mesh::rotateZ(const float& theta) {
+    this->rotationMatrix = rotationZ(theta) * this->rotationMatrix;
+    this->precomputeWorldCoords();
+    this->precomputeFaceProperties();
+}
+
+void Mesh::precomputeWorldCoords() {
+    for (int i = 0; i < this->verticesWorldCoord.size(); i++) {
+        this->verticesWorldCoord[i] = this->rotationMatrix * this->verticesLocalCoord[i] + this->position;
+    }
+}
+
+void Mesh::precomputeFaceProperties() {
+    for (int i = 0; i < this->faces.size(); i++) {
+        this->faces[i].precomputeLocalProperties();
+        this->faces[i].precomputeWorldProperties();
+    }
+}
+
 // Parameters Counterclockwise order
 Face::Face(const int& vInd0, const int& vInd1, const int& vInd2, Mesh* mesh) {
     this->mesh = mesh;
@@ -101,5 +132,5 @@ void Face::precomputeWorldProperties() {
 
     // Computing coeff
     // See documentation (TODO: add link later)
-    this->coeff = dot(this->worldNormal, v0);
+    this->coeff = (-1.f) * dot(this->worldNormal, v0);
 }

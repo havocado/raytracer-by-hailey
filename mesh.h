@@ -29,6 +29,16 @@ public:
     void addFace(const int& vInd0, const int& vInd1, const int& vInd2);
 
     CollisionData rayCollisionPoint(const Ray& r);
+
+    void rotateX(const float& theta);
+    void rotateY(const float& theta);
+    void rotateZ(const float& theta);
+
+protected:
+    // Precompute all Vertex World Coord
+    void precomputeWorldCoords();
+    // Precompute all face properties
+    void precomputeFaceProperties();
 };
 
 class Face {
@@ -43,7 +53,7 @@ public:
     Face(const int& vInd0, const int& vInd1, const int& vInd2, Mesh* mesh);
 
     CollisionData rayCollisionPoint(const Ray& r);
-private:
+
     // World coord precomputed properties
     Vec3 worldNormal;
     float coeff; // plane equation: dot(normal, point)+coeff == 0
