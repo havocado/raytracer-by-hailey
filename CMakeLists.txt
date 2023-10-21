@@ -28,6 +28,7 @@ set( RAYTRACER-BY-HAILEY-SRC
         mesh.h
         cube.h
         mesh.cpp
+        color.h
 )
      
 add_executable( raytracer-by-hailey WIN32 ${RAYTRACER-BY-HAILEY-SRC} )
