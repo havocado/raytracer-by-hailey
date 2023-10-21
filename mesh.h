@@ -11,8 +11,10 @@ class Face;
 
 class Mesh: public HittableObject {
 public:
-    std::vector<Point3> vertices; // local coordinates wrt mesh position
+    std::vector<Point3> verticesLocalCoord; // local coordinates wrt mesh position
     std::vector<Face> faces;
+
+    std::vector<Point3> verticesWorldCoord; // Precomputed world coord
 
     Mesh(): HittableObject() {}
 
@@ -27,20 +29,39 @@ public:
     void addFace(const int& vInd0, const int& vInd1, const int& vInd2);
 
     CollisionData rayCollisionPoint(const Ray& r);
+
+    void rotateX(const float& theta);
+    void rotateY(const float& theta);
+    void rotateZ(const float& theta);
+
+protected:
+    // Precompute all Vertex World Coord
+    void precomputeWorldCoords();
+    // Precompute all face properties
+    void precomputeFaceProperties();
 };
 
 class Face {
 public:
     Mesh* mesh;
-
     std::vector<int> vertexIndices; // size: 3
-    Vec3 normal;
-    float coeff; // plane equation: dot(normal, point)+coeff == 0
+
+    // Local coord precomputed properties
+    Vec3 localNormal;
 
     // Counterclockwise order
     Face(const int& vInd0, const int& vInd1, const int& vInd2, Mesh* mesh);
 
     CollisionData rayCollisionPoint(const Ray& r);
+
+    // World coord precomputed properties
+    Vec3 worldNormal;
+    float coeff; // plane equation: dot(normal, point)+coeff == 0
+
+    // Precompute local normal and coeff
+    void precomputeLocalProperties();
+    // Precompute world normal and coeff
+    void precomputeWorldProperties();
 };
 
 #endif //MESH_H

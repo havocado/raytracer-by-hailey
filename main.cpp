@@ -51,11 +51,13 @@ int main() {
 
     // Initialize objects
     std::vector<HittableObject*> objectList;
-    Sphere sphere1(Point3(0.f, 0.f, -1.3f), Matrix3x3(), 0.5f);
+    Sphere sphere1(Point3(0.f, 0.f, -1.3f), Matrix3x3(), 0.47f);
     objectList.push_back(&sphere1);
-    Cube cube1(Point3(1.f, 0.f, -1.3f), Matrix3x3(), 0.5f, 0.6f, 0.3f);
+    Cube cube1(Point3(1.f, 0.f, -1.3f), Matrix3x3(), 0.5f, 0.6f, 0.55f);
+    cube1.rotateX(-2.f);
     objectList.push_back(&cube1);
     Cube cube2(Point3(-0.7f, 0.f, -1.1f), Matrix3x3(), 0.7f, 0.6f, 0.3f);
+    cube2.rotateZ(-1.2f);
     objectList.push_back(&cube2);
 
     // Initialize Camera
