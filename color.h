@@ -8,7 +8,7 @@
 #include "vec3.h"
 #include <iostream>
 
-using Color = vec3;
+using Color = Vec3;
 
 void writeColor(std::ostream &out, Color pixel_color) {
     out << static_cast<int>(255.999 * pixel_color.x()) << ' '
