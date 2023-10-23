@@ -31,6 +31,8 @@ set( RAYTRACER-BY-HAILEY-SRC
         material.h
         collisionData.cpp
         hittableObject.cpp
+        boundingBox.cpp
+        boundingBox.h
 )
      
 add_executable( raytracer-by-hailey WIN32 ${RAYTRACER-BY-HAILEY-SRC} )

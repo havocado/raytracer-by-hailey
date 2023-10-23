@@ -14,8 +14,7 @@ HittableObject::HittableObject(const Point3& pos, const Matrix3x3& rotMatrix, Ma
 }
 
 bool HittableObject::rayCollidesBoundingBox(const Ray& r) {
-    // STUB - Bounding box should be implemented later
-    return true;
+    return boundingBox.rayCollidesBox(r);
 }
 
 Vec3 HittableObject::localToWorld(const Vec3& v) {

@@ -7,6 +7,7 @@
 
 #include "vec3.h"
 
+const float T_THRESHOLD = 0.0005f;
 const float RAY_T_MAX = 1e30;
 
 class Ray {
