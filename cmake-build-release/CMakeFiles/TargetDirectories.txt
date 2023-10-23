@@ -1,8 +1,0 @@
-D:/2023_opengl_projects/glfw-proj/cmake-build-release/CMakeFiles/raytracer-by-hailey.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-release/CMakeFiles/edit_cache.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-release/CMakeFiles/rebuild_cache.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-release/glfw/CMakeFiles/edit_cache.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-release/glfw/CMakeFiles/rebuild_cache.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-release/glfw/src/CMakeFiles/glfw.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-release/glfw/src/CMakeFiles/edit_cache.dir
-D:/2023_opengl_projects/glfw-proj/cmake-build-release/glfw/src/CMakeFiles/rebuild_cache.dir
