@@ -18,16 +18,19 @@ endif()
 set( RAYTRACER-BY-HAILEY-SRC
      main.cpp
         vec3.h
-        color.h
         ray.h
         cameraSpec.h
-        hittableObject.h
         sphere.h
         collisionData.h
+        hittableObject.h
         matrix3x3.h
         mesh.h
         cube.h
         mesh.cpp
+        material.cpp
+        material.h
+        collisionData.cpp
+        hittableObject.cpp
 )
      
 add_executable( raytracer-by-hailey WIN32 ${RAYTRACER-BY-HAILEY-SRC} )

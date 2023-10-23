@@ -21,6 +21,13 @@ public:
         this->aspect_ratio = (this->sensorWidth)/(this->sensorHeight);
     }
 
+    Vec3 getDirection(const float& NDC_x, const float& NDC_y) const {
+        Point3 A = Point3(NDC_x, NDC_y, -1.f);
+        Point3 B = A * Point3(this->sensorWidth, this->sensorHeight, this->focal_length);
+        Point3 rayScreenDirection = rotationMatrix * B;
+        return rayScreenDirection;
+    }
+
     void setPosition(const Point3& pos) {
         this->position = pos;
     }

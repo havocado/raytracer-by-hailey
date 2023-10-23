@@ -10,10 +10,10 @@ class Sphere: public HittableObject {
 public:
     float radius;
 
-    Sphere(): HittableObject(), radius(1.f) {}
+    Sphere(Material* material): HittableObject(material), radius(1.f) {}
 
-    Sphere(const Point3& pos, const Matrix3x3& rotMatrix, const float& radius)
-        : HittableObject(pos, rotMatrix), radius(radius) {}
+    Sphere(const Point3& pos, const Matrix3x3& rotMatrix, const float& radius, Material* material)
+        : HittableObject(pos, rotMatrix, material), radius(radius) {}
 
     void setRadius(const float& radius) {
         this->radius = radius;
@@ -40,22 +40,22 @@ public:
             float secondTerm = std::sqrt(termInsideSqrt);
             float smaller_t = (firstTerm - secondTerm)/Bsq;
             float larger_t = (firstTerm + secondTerm)/Bsq;
-            if (smaller_t > 0.f) {
+            if (smaller_t > T_THRESHOLD) {
                 Point3 location = r.at(smaller_t);
-                return {true, r, smaller_t, this->getNormal(location)};
+                return {true, r, smaller_t, this->getNormal(location), this};
             }
-            else if (larger_t > 0.f) {
+            else if (larger_t > T_THRESHOLD) {
                 Point3 location = r.at(larger_t);
-                return {true, r, larger_t, this->getNormal(location)};
+                return {true, r, larger_t, this->getNormal(location), this};
             }
             else {
                 return {false};
             }
         }
-        else if (termInsideSqrt == 0.f) {
+        else if (termInsideSqrt == T_THRESHOLD) {
             float t = (-1.f) * dot(r.direction(), r.origin() - this->position)/Bsq;
             Point3 location = r.at(t);
-            return {true, r, t, this->getNormal(location)};
+            return {true, r, t, this->getNormal(location), this};
         }
         else { // (termInsideSqrt < 0.f)
             return {false};

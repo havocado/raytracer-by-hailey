@@ -3,6 +3,17 @@
 #include "ray.h"
 #include "collisionData.h"
 
+Mesh::Mesh(Material* material): HittableObject(material) {
+    this->precomputeWorldCoords();
+    this->precomputeFaceProperties();
+}
+
+Mesh::Mesh(const Point3& pos, const Matrix3x3& rotMatrix, Material* material)
+        : HittableObject(pos, rotMatrix, material) {
+    this->precomputeWorldCoords();
+    this->precomputeFaceProperties();
+}
+
 void Mesh::addVertex(const Point3& vertexPosition) {
     verticesLocalCoord.push_back(vertexPosition);
     verticesWorldCoord.push_back(this->localToWorld(vertexPosition));
@@ -89,7 +100,7 @@ CollisionData Face::rayCollisionPoint(const Ray& r) {
     Point3 C = this->mesh->verticesWorldCoord[this->vertexIndices[2]];
     // Get t for plane-ray intersection point
     float t = (-1.f) * (dot(this->worldNormal, r.origin()) + this->coeff) / (dot(this->worldNormal, r.direction()));
-    if (t > 0.f) {
+    if (t > T_THRESHOLD) {
         // Test if intersection point is within the triangle
         // Check if all barycentric coordinates are positive
         // Note: triangle intersection check can be simpler, I am using barycentric coordinates for later.
@@ -101,7 +112,7 @@ CollisionData Face::rayCollisionPoint(const Ray& r) {
         float gamma = dot(cross(B-A, location-A), worldNormal) / denom;
 
         if (alpha >= 0.f && beta >= 0.f && gamma >= 0.f) {
-            return {true, r, t, this->worldNormal};
+            return {true, r, t, this->worldNormal, this->mesh};
         }
     }
     return {false};
