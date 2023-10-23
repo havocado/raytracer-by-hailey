@@ -1,3 +1,18 @@
-//
-// Created by 안혜영 on 2023-10-21.
-//
+#include "collisionData.h"
+
+Point3 CollisionData::location() const {
+    if (!collided) {
+        std::cout << "Warning: location information called for placeholder collisionData" << std::endl;
+        return {};
+    }
+    return r.at(t);
+}
+
+Ray CollisionData::getNextRay() {
+    return collidedObject->material->getNextRay(*this);
+}
+
+Color CollisionData::getColor() {
+    return collidedObject->material->getColor();
+}
+

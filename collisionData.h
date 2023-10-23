@@ -2,8 +2,11 @@
 #define COLLISIONDATA_H
 
 #include <iostream>
+#include "hittableObject.h"
 #include "vec3.h"
 #include "ray.h"
+
+class HittableObject;
 
 class CollisionData {
 public:
@@ -11,19 +14,19 @@ public:
     float t;
     Vec3 normal;
     Ray r;
-    // Constructor for when collided==true
-    CollisionData(const bool& collided, const Ray& r, const float& t, const Vec3& normal)
-            : collided(collided), r(r), t(t), normal(normal) {}
-    // Constructor for when collided==false (omit collision location)
-    CollisionData(const bool& collided=false): collided(collided) {}
+    HittableObject *collidedObject;
 
-    Point3 location() const {
-        if (!collided) {
-            std::cout << "Warning: location information called for placeholder collisionData" << std::endl;
-            return {};
-        }
-        return r.at(t);
-    }
+    // Constructor for when collided==true
+    CollisionData(const bool &collided, const Ray &r, const float &t, const Vec3 &normal,
+                  HittableObject *collidedObject)
+            : collided(collided), r(r), t(t), normal(normal), collidedObject(collidedObject) {}
+
+    // Constructor for when collided==false (omit collision location)
+    CollisionData(const bool &collided = false) : collided(collided) {}
+
+    Point3 location() const;
+    Ray getNextRay();
+    Color getColor();
 };
 
 #endif //COLLISIONDATA_H

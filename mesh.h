@@ -16,9 +16,9 @@ public:
 
     std::vector<Point3> verticesWorldCoord; // Precomputed world coord
 
-    Mesh(): HittableObject() {}
+    Mesh(Material* material);
 
-    Mesh(const Point3& pos, const Matrix3x3& rotMatrix): HittableObject(pos, rotMatrix) {}
+    Mesh(const Point3& pos, const Matrix3x3& rotMatrix, Material* material);
 
     void addVertex(const Point3& vertexPosition);
 

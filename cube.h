@@ -8,19 +8,19 @@ class Cube: public Mesh {
 public:
     float cubeDim[3]; // xyz
 
-    Cube(): Mesh() { initMesh(1.f, 1.f, 1.f); }
+    Cube(Material* material): Mesh(material) { initMesh(1.f, 1.f, 1.f); }
 
-    Cube(const Point3& pos, const Matrix3x3& rotMatrix): Mesh(pos, rotMatrix) {
+    Cube(const Point3& pos, const Matrix3x3& rotMatrix, Material* material): Mesh(pos, rotMatrix, material) {
         initMesh(1.f, 1.f, 1.f);
     }
 
-    Cube(const float& dimX, const float& dimY, const float& dimZ): Mesh() {
+    Cube(const float& dimX, const float& dimY, const float& dimZ, Material* material): Mesh(material) {
         initMesh(dimX, dimY, dimZ);
     }
 
     Cube(const Point3& pos, const Matrix3x3& rotMatrix,
-         const float& dimX, const float& dimY, const float& dimZ)
-        : Mesh(pos, rotMatrix) {
+         const float& dimX, const float& dimY, const float& dimZ, Material* material)
+        : Mesh(pos, rotMatrix, material) {
         initMesh(dimX, dimY, dimZ);
     }
 

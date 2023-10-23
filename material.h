@@ -1,14 +1,25 @@
-//
-// Created by 안혜영 on 2023-10-20.
-//
+#ifndef MATERIAL_H
+#define MATERIAL_H
 
-#ifndef RAYTRACER_BY_HAILEY_MATERIAL_H
-#define RAYTRACER_BY_HAILEY_MATERIAL_H
+#include "ray.h"
+#include "collisionData.h"
 
+class CollisionData;
 
-class material {
+// Superclass is a default Material
+class Material {
+public:
+    Color color;
 
+    Material();
+    Material(const Color& color);
+
+    // Generate a ray probabilistically
+    Ray getNextRay(const CollisionData& collisionData);
+
+    Color getColor();
 };
 
 
-#endif //RAYTRACER_BY_HAILEY_MATERIAL_H
+
+#endif //MATERIAL_H
