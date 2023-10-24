@@ -9,8 +9,9 @@
 #include "hittableObject.h"
 #include "material.h"
 
-const int NUM_BOUNCE = 10;
-const int NUM_BOUNCED_RAYS = 3;
+const int NUM_BOUNCE = 15;
+const int NUM_BOUNCED_RAYS = 10;
+const int STOP_DIVIDING_AFTER_K_BOUNCES = 2;
 
 CollisionData getCollision(const Ray& r, const std::vector<HittableObject*>& objectList) {
     // Compute closest collision
@@ -32,6 +33,12 @@ Color getColorFromRay(const Ray& r, const std::vector<HittableObject*>& objectLi
     if (closestCollision.collided) {
         if (kthBounce < NUM_BOUNCE) {
             Color resultColor;
+            if (kthBounce > STOP_DIVIDING_AFTER_K_BOUNCES) {
+                Ray bouncedRay = closestCollision.getNextRay();
+                float bounceTheta = std::acos(dot(r.direction(), closestCollision.normal*(-1.f)) / (r.direction().length() * closestCollision.normal.length()));
+                Color collidedMaterialColor = closestCollision.getColor();
+                return collidedMaterialColor * getColorFromRay(bouncedRay, objectList, kthBounce+1);
+            }
             for (int i = 0; i < NUM_BOUNCED_RAYS; i++) {
                 Ray bouncedRay = closestCollision.getNextRay();
                 float bounceTheta = std::acos(dot(r.direction(), closestCollision.normal*(-1.f)) / (r.direction().length() * closestCollision.normal.length()));

@@ -6,17 +6,17 @@
 #include "collisionData.h"
 #include "matrix3x3.h"
 #include "material.h"
+#include "boundingBox.h"
 
 class CollisionData;
 class Material;
-
-const float T_THRESHOLD = 0.0005f;
 
 class HittableObject {
 public:
     Point3 position;
     Matrix3x3 rotationMatrix;
     Material* material;
+    BoundingBox boundingBox;
 
     // Bounding box should be implemented later
 

@@ -1,3 +1,4 @@
+#include <cmath>
 #include "mesh.h"
 #include "vec3.h"
 #include "ray.h"
@@ -17,11 +18,15 @@ Mesh::Mesh(const Point3& pos, const Matrix3x3& rotMatrix, Material* material)
 void Mesh::addVertex(const Point3& vertexPosition) {
     verticesLocalCoord.push_back(vertexPosition);
     verticesWorldCoord.push_back(this->localToWorld(vertexPosition));
+    int ind = verticesWorldCoord.size()-1;
+    boundingBox.insertPoint(verticesWorldCoord[ind]);
 }
 
 void Mesh::addVertex(const float& v0, const float& v1, const float& v2) {
     verticesLocalCoord.emplace_back(v0, v1, v2);
-    verticesWorldCoord.push_back(this->localToWorld(verticesLocalCoord[verticesLocalCoord.size()-1]));
+    int ind = verticesLocalCoord.size()-1;
+    verticesWorldCoord.push_back(this->localToWorld(verticesLocalCoord[ind]));
+    boundingBox.insertPoint(verticesWorldCoord[ind]);
 }
 
 void Mesh::addFace(const Face& face) {
@@ -33,6 +38,9 @@ void Mesh::addFace(const int& vInd0, const int& vInd1, const int& vInd2) {
 }
 
 CollisionData Mesh::rayCollisionPoint(const Ray& r) {
+    if (!rayCollidesBoundingBox(r)) {
+        return {false};
+    }
     // Return collision with minimum t
     bool collided = false;
     float min_t = RAY_T_MAX;
@@ -72,8 +80,10 @@ void Mesh::rotateZ(const float& theta) {
 }
 
 void Mesh::precomputeWorldCoords() {
+    boundingBox.resetToEmpty();
     for (int i = 0; i < this->verticesWorldCoord.size(); i++) {
         this->verticesWorldCoord[i] = this->rotationMatrix * this->verticesLocalCoord[i] + this->position;
+        boundingBox.insertPoint(verticesWorldCoord[i]);
     }
 }
 

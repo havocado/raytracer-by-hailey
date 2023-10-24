@@ -10,13 +10,22 @@ class Sphere: public HittableObject {
 public:
     float radius;
 
-    Sphere(Material* material): HittableObject(material), radius(1.f) {}
+    Sphere(Material* material): HittableObject(material), radius(1.f) {
+        boundingBox.insertPoint(this->position + Point3(radius, radius, radius));
+        boundingBox.insertPoint(this->position - Point3(radius, radius, radius));
+    }
 
     Sphere(const Point3& pos, const Matrix3x3& rotMatrix, const float& radius, Material* material)
-        : HittableObject(pos, rotMatrix, material), radius(radius) {}
+        : HittableObject(pos, rotMatrix, material), radius(radius) {
+        boundingBox.insertPoint(this->position + Point3(radius, radius, radius));
+        boundingBox.insertPoint(this->position - Point3(radius, radius, radius));
+    }
 
     void setRadius(const float& radius) {
         this->radius = radius;
+        boundingBox.resetToEmpty();
+        boundingBox.insertPoint(this->position + Point3(radius, radius, radius));
+        boundingBox.insertPoint(this->position - Point3(radius, radius, radius));
     }
 
     Vec3 getNormal(const Point3& pt) {
@@ -24,6 +33,8 @@ public:
     }
 
     CollisionData rayCollisionPoint(const Ray& r) override {
+        // Skip bounding box test, because sphere intersection is faster.
+
         /* Ray-sphere intersection test.
          * Let ray: A+tB, sphere: center C, radius R. (all known except t)
          * Intersection condition: (A+tB-C)^2 = R^2
