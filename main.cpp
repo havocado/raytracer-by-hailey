@@ -9,7 +9,7 @@
 #include "hittableObject.h"
 #include "material.h"
 
-const int NUM_BOUNCE = 15;
+const int NUM_BOUNCE = 10;
 const int NUM_BOUNCED_RAYS = 10;
 const int STOP_DIVIDING_AFTER_K_BOUNCES = 2;
 
@@ -31,6 +31,9 @@ CollisionData getCollision(const Ray& r, const std::vector<HittableObject*>& obj
 Color getColorFromRay(const Ray& r, const std::vector<HittableObject*>& objectList, const int& kthBounce) {
     CollisionData closestCollision = getCollision(r, objectList);
     if (closestCollision.collided) {
+        if (closestCollision.isLight()) {
+            return closestCollision.getLight();
+        }
         if (kthBounce < NUM_BOUNCE) {
             Color resultColor;
             if (kthBounce > STOP_DIVIDING_AFTER_K_BOUNCES) {
@@ -104,6 +107,13 @@ int main() {
     // Initialize Camera
     std::cout << "Initializing Camera ......" << std::endl;
     CameraSpec camera; // Use default constants
+
+
+    float yOffset = 2e5;
+    camera.moveY(yOffset);
+    for (auto targetObj: objectList) {
+        targetObj->moveY(yOffset);
+    }
 
     // User defined constants
     const int numPixelWidth = 640; // Arbitrary

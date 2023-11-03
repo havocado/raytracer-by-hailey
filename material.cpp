@@ -5,7 +5,8 @@ Material::Material() {
     color = Color(0.5f, 0.5f, 0.5f);
 }
 
-Material::Material(const Color& color): color(color) {}
+Material::Material(const Color& color, const bool& isLightSource)
+    : color(color), isLightSource(isLightSource) {}
 
 Ray Material::getNextRay(const CollisionData& collisionData) {
     //return {collisionData.location(), collisionData.r.direction() * (-1.f)};
@@ -21,5 +22,19 @@ Ray Material::getNextRay(const CollisionData& collisionData) {
 }
 
 Color Material::getColor() {
-    return color;
+    if (isLightSource) {
+        return {0.f, 0.f, 0.f};
+    }
+    else {
+        return color;
+    }
+}
+
+Color Material::getLight() {
+    if (isLightSource) {
+        return color;
+    }
+    else {
+        return {0.f, 0.f, 0.f};
+    }
 }

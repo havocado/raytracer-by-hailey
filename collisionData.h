@@ -27,6 +27,8 @@ public:
     Point3 location() const;
     Ray getNextRay();
     Color getColor();
+    bool isLight();
+    Color getLight();
 };
 
 #endif //COLLISIONDATA_H

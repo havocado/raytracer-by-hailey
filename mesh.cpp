@@ -61,22 +61,16 @@ CollisionData Mesh::rayCollisionPoint(const Ray& r) {
     }
 }
 
-void Mesh::rotateX(const float& theta) {
-    this->rotationMatrix = rotationX(theta) * this->rotationMatrix;
-    this->precomputeWorldCoords();
-    this->precomputeFaceProperties();
+void Mesh::setPosition(const Point3& pos) {
+    HittableObject::setPosition(pos);
+    precomputeWorldCoords();
+    precomputeFaceProperties();
 }
 
-void Mesh::rotateY(const float& theta) {
-    this->rotationMatrix = rotationY(theta) * this->rotationMatrix;
-    this->precomputeWorldCoords();
-    this->precomputeFaceProperties();
-}
-
-void Mesh::rotateZ(const float& theta) {
-    this->rotationMatrix = rotationZ(theta) * this->rotationMatrix;
-    this->precomputeWorldCoords();
-    this->precomputeFaceProperties();
+void Mesh::setRotation(const Matrix3x3& rot) {
+    HittableObject::setRotation(rot);
+    precomputeWorldCoords();
+    precomputeFaceProperties();
 }
 
 void Mesh::precomputeWorldCoords() {
