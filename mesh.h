@@ -30,9 +30,8 @@ public:
 
     CollisionData rayCollisionPoint(const Ray& r);
 
-    void rotateX(const float& theta);
-    void rotateY(const float& theta);
-    void rotateZ(const float& theta);
+    void setPosition(const Point3& pos);
+    void setRotation(const Matrix3x3& rot);
 
 protected:
     // Precompute all Vertex World Coord
