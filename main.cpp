@@ -9,8 +9,8 @@
 #include "hittableObject.h"
 #include "material.h"
 
-const int NUM_BOUNCE = 10;
-const int NUM_BOUNCED_RAYS = 10;
+const int NUM_BOUNCE = 15;
+const int NUM_BOUNCED_RAYS = 5;
 const int STOP_DIVIDING_AFTER_K_BOUNCES = 2;
 
 CollisionData getCollision(const Ray& r, const std::vector<HittableObject*>& objectList) {
