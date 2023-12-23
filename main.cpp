@@ -108,13 +108,6 @@ int main() {
     std::cout << "Initializing Camera ......" << std::endl;
     CameraSpec camera; // Use default constants
 
-
-    float yOffset = 2e5;
-    camera.moveY(yOffset);
-    for (auto targetObj: objectList) {
-        targetObj->moveY(yOffset);
-    }
-
     // User defined constants
     const int numPixelWidth = 640; // Arbitrary
 
