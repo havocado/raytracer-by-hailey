@@ -8,6 +8,7 @@
 #include "cube.h"
 #include "hittableObject.h"
 #include "material.h"
+#include "plyImport.h"
 
 const int NUM_BOUNCE = 15;
 const int NUM_BOUNCED_RAYS = 5;
@@ -84,6 +85,7 @@ int main() {
 
     // Material creation
     Material grayMaterial;
+    Material whiteMaterial(Color(0.9f, 0.9f, 0.9f));
     Material purpleMaterial(Color(0.45f, 0.9f, 0.9f));
     Material blueMaterial(Color(0.45f, 0.45f, 0.9f));
     Material redMaterial(Color(0.9f, 0.45f, 0.45f));
@@ -91,9 +93,14 @@ int main() {
 
     // Initialize objects
     std::vector<HittableObject*> objectList;
-    Sphere sphere1(Point3(0.f, 0.f, -1.3f), Matrix3x3(), 0.47f, &purpleMaterial);
-    objectList.push_back(&sphere1);
-    Cube cube1(Point3(1.f, 0.f, -1.3f), Matrix3x3(), 0.5f, 0.6f, 0.55f, &yellowMaterial);
+    std::string fileName = "../data/bun_zipper_res2.ply";
+    Mesh bunnyMesh = plyImport::read(fileName, whiteMaterial);
+    bunnyMesh.moveZ(-0.20f);
+    bunnyMesh.moveY(-0.1f);
+    bunnyMesh.moveX(0.045f);
+    objectList.push_back(&bunnyMesh);
+
+    Cube cube1(Point3(1.f, 0.f, -1.3f), Matrix3x3(), 0.5f, 0.6f, 0.55f, &purpleMaterial);
     cube1.rotateX(-2.f);
     objectList.push_back(&cube1);
     Cube cube2(Point3(-0.7f, 0.f, -1.1f), Matrix3x3(), 0.7f, 0.6f, 0.3f, &redMaterial);
@@ -108,13 +115,6 @@ int main() {
     std::cout << "Initializing Camera ......" << std::endl;
     CameraSpec camera; // Use default constants
 
-
-    float yOffset = 2e5;
-    camera.moveY(yOffset);
-    for (auto targetObj: objectList) {
-        targetObj->moveY(yOffset);
-    }
-
     // User defined constants
     const int numPixelWidth = 640; // Arbitrary
 
@@ -123,7 +123,7 @@ int main() {
 
     // Create window
     std::cout << "Creating Window ......" << std::endl;
-    window = glfwCreateWindow(windowDim.first, windowDim.second, "asdf", NULL, NULL);
+    window = glfwCreateWindow(windowDim.first, windowDim.second, "Raytracer by Hailey", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(EXIT_FAILURE);

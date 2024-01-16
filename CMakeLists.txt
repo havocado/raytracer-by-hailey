@@ -33,6 +33,8 @@ set( RAYTRACER-BY-HAILEY-SRC
         hittableObject.cpp
         boundingBox.cpp
         boundingBox.h
+        plyImport.cpp
+        plyImport.h
 )
      
 add_executable( raytracer-by-hailey WIN32 ${RAYTRACER-BY-HAILEY-SRC} )

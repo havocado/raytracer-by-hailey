@@ -9,6 +9,9 @@
 
 class Face;
 
+const int MAX_VERTEX_PER_MESH = 10000000;
+const int MAX_FACE_PER_MESH = 10000000;
+
 class Mesh: public HittableObject {
 public:
     std::vector<Point3> verticesLocalCoord; // local coordinates wrt mesh position
