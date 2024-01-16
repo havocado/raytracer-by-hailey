@@ -76,4 +76,3 @@ void BoundingBox::insertPoint(const Point3& pt) {
 void BoundingBox::resetToEmpty() {
     this->isEmpty = true;
 }
-
