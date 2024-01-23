@@ -1,4 +1,6 @@
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+#include <glad/gl.h>
 #include <bits/stdc++.h>
 #include <ctime>
 
@@ -10,9 +12,19 @@
 #include "material.h"
 #include "plyImport.h"
 
-const int NUM_BOUNCE = 15;
-const int NUM_BOUNCED_RAYS = 5;
+const int NUM_BOUNCE = 2;//15;
+const int NUM_BOUNCED_RAYS = 2;//5;
 const int STOP_DIVIDING_AFTER_K_BOUNCES = 2;
+
+GLfloat vertices[] = {
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.0f,  0.5f, 0.0f
+};
+
+static void error_callback(int error, const char* description){
+    fprintf(stderr, "Error: %s\n", description);
+}
 
 CollisionData getCollision(const Ray& r, const std::vector<HittableObject*>& objectList) {
     // Compute closest collision
@@ -77,11 +89,15 @@ std::pair<int, int> getWindowDim(const CameraSpec& camera, const int& numPixelWi
 
 int main() {
     std::srand(std::time(nullptr));
+    glfwSetErrorCallback(error_callback);
     GLFWwindow* window;
 
     if (!glfwInit()) {
         exit(EXIT_FAILURE);
     }
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Material creation
     Material grayMaterial;
@@ -131,6 +147,8 @@ int main() {
 
     // Make Context
     glfwMakeContextCurrent(window);
+    // load GLAD
+    gladLoadGL(glfwGetProcAddress);
 
     float ratio;
     int width, height;
@@ -139,8 +157,21 @@ int main() {
     ratio = (float)width / (float)height;
     std::cout << "framebuffer sizes: width " << width << ", height " << height << std::endl;
 
+    // OpenGL stuff
+    //unsigned int VBO;
+    //glGenBuffers(1, &VBO);
+    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
     // Set background color to viewport
     glViewport(0, 0, width, height);
+
+    Shader shaderProgram("vertShader.vert", "fragShader.frag");
+
+
+
+
+
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Raytracing loop
