@@ -14,7 +14,8 @@ class Ray {
 public:
     Ray() {}
 
-    Ray(const Point3& origin, const Vec3& direction) : orig(origin), dir(direction/direction.length()) {}
+    Ray(const Point3& origin, const Vec3& direction, const int& kthBounce)
+        : orig(origin), dir(direction/direction.length()), kthBounce(kthBounce) {}
 
     Point3 origin() const { return orig; }
     Vec3 direction() const { return dir; }
@@ -22,6 +23,8 @@ public:
     Point3 at(float t) const {
         return orig + t*dir;
     }
+
+    int kthBounce;
 
 private:
     Point3 orig;
