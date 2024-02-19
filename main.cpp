@@ -126,14 +126,6 @@ int main() {
         glVertex2f(s.x,s.y);
 
         counter++;
-
-
-        /*if (counter%10000 == 0) {
-            glEnd();
-            glfwPollEvents();
-            glfwSwapBuffers(window);
-            glBegin(GL_POINTS);
-        }*/
     }
     // End mode: draw points
     glEnd();

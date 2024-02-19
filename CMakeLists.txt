@@ -40,6 +40,7 @@ set( RAYTRACER-BY-HAILEY-SRC
         scene.h
         utils.cpp
         utils.h
+        sampler.cpp
 )
      
 add_executable( raytracer-by-hailey WIN32 ${RAYTRACER-BY-HAILEY-SRC} )
