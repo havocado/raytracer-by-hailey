@@ -35,12 +35,12 @@ set( RAYTRACER-BY-HAILEY-SRC
         boundingBox.h
         plyImport.cpp
         plyImport.h
+        sampler.cpp
         sampler.h
         scene.cpp
         scene.h
         utils.cpp
         utils.h
-        sampler.cpp
 )
      
 add_executable( raytracer-by-hailey WIN32 ${RAYTRACER-BY-HAILEY-SRC} )
