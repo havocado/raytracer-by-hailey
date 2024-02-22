@@ -8,19 +8,19 @@ Point3 CollisionData::location() const {
     return r.at(t);
 }
 
-Ray CollisionData::getNextRay() {
+Ray CollisionData::getNextRay() const {
     return collidedObject->material->getNextRay(*this);
 }
 
-Color CollisionData::getColor() {
+Color CollisionData::getColor() const {
     return collidedObject->material->getColor();
 }
 
-bool CollisionData::isLight() {
+bool CollisionData::isLight() const {
     return collidedObject->material->isLightSource;
 }
 
-Color CollisionData::getLight() {
+Color CollisionData::getLight() const {
     return collidedObject->material->getLight();
 }
 

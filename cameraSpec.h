@@ -2,7 +2,9 @@
 #define CAMERA_H
 
 #include "vec3.h"
+#include "ray.h"
 #include "matrix3x3.h"
+#include "sampler.h"
 
 class CameraSpec {
 public:
@@ -21,11 +23,11 @@ public:
         this->aspect_ratio = (this->sensorWidth)/(this->sensorHeight);
     }
 
-    Vec3 getDirection(const float& NDC_x, const float& NDC_y) const {
-        Point3 A = Point3(NDC_x, NDC_y, -1.f);
+    Ray getRay(const NdcPoint& ndcPoint, const int& screenWidth, const int& screenHeight) const {
+        Point3 A = Point3(ndcPoint.x, ndcPoint.y, -1.f);
         Point3 B = A * Point3(this->sensorWidth, this->sensorHeight, this->focal_length);
         Point3 rayScreenDirection = rotationMatrix * B;
-        return rayScreenDirection;
+        return {this->position, rayScreenDirection, 0};
     }
 
     void setPosition(const Point3& pos) {

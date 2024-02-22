@@ -25,10 +25,10 @@ public:
     CollisionData(const bool &collided = false) : collided(collided) {}
 
     Point3 location() const;
-    Ray getNextRay();
-    Color getColor();
-    bool isLight();
-    Color getLight();
+    Ray getNextRay() const;
+    Color getColor() const;
+    bool isLight() const;
+    Color getLight() const;
 };
 
 #endif //COLLISIONDATA_H

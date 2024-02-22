@@ -18,7 +18,7 @@ Ray Material::getNextRay(const CollisionData& collisionData) {
     if (dot(direction, collisionData.normal) < 0.f) {
         direction = direction * (-1.f);
     }
-    return {collisionData.location(), direction};
+    return {collisionData.location(), direction, collisionData.r.kthBounce+1};
 }
 
 Color Material::getColor() {
