@@ -36,7 +36,7 @@ Color raytrace(const Ray& r, Scene& scene) {
         for (Ray br: bouncedRays) {
             Color bouncedColor = raytrace(br, scene);
             float cosTheta = calculateRaySurfaceCosAngle(br, closestCollision.normal);
-            resultColor += closestCollision.getColor() * bouncedColor * cosTheta;
+            resultColor += closestCollision.getColor() * bouncedColor;// * cosTheta;
         }
         resultColor /= (float)bouncedRays.size();
         return resultColor;
