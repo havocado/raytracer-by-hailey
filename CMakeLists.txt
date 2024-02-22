@@ -15,8 +15,21 @@ if( MSVC )
     SET( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /ENTRY:mainCRTStartup" )
 endif()
 
+# GLAD
+link_libraries(glfw)
+include_directories("${GLFW_SOURCE_DIR}/deps")
+if (MATH_LIBRARY)
+    link_libraries("${MATH_LIBRARY}")
+endif()
+if (MSVC)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+endif()
+set(GLAD_GL "${GLFW_SOURCE_DIR}/deps/glad/gl.h"
+        "${GLFW_SOURCE_DIR}/deps/glad_gl.c")
+
 set( RAYTRACER-BY-HAILEY-SRC
      main.cpp
+        glfw/deps/glad_gl.c
         vec3.h
         ray.h
         cameraSpec.h

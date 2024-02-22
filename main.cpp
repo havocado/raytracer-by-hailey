@@ -1,4 +1,6 @@
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+#include <glad/gl.h>
 #include <bits/stdc++.h>
 #include <ctime>
 
@@ -43,8 +45,8 @@ Color raytrace(const Ray& r, Scene& scene) {
     }
 }
 
-std::pair<int, int> getWindowDim(const CameraSpec& camera, const int& numPixelWidth) {
-    return {numPixelWidth, std::round((float)numPixelWidth * camera.sensorHeight / camera.sensorWidth)};
+static void error_callback(int error, const char* description){
+    fprintf(stderr, "Error: %s\n", description);
 }
 
 int main() {
@@ -89,16 +91,24 @@ int main() {
 
     // Create window
     std::cout << "Creating Window ......" << std::endl;
+    glfwSetErrorCallback(error_callback);
+    GLFWwindow* window;
+
     if (!glfwInit()) {
         exit(EXIT_FAILURE);
     }
-    GLFWwindow* window;
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     window = glfwCreateWindow(windowDim.first, windowDim.second, "Raytracer by Hailey", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
     glfwMakeContextCurrent(window);
+    // load GLAD
+    gladLoadGL(glfwGetProcAddress);
 
     // Read actual resolution from created window
     int width, height;
@@ -116,19 +126,32 @@ int main() {
     std::vector<NdcPoint> samplePoints = sampler.createSamplePoints(width, height);
 
     // Raytracing loop
-    glBegin(GL_POINTS);
+    //glBegin(GL_POINTS);
     int counter = 0;
     for (auto s: samplePoints) {
-        Ray r = camera.getRay(s, width, height);
-        Color c = raytrace(r, scene);
+        //Ray r = camera.getRay(s, width, height);
+        //Color c = raytrace(r, scene);
         // Draw point in color
-        glColor3f(c.x(),c.y(),c.z());
-        glVertex2f(s.x,s.y);
+        //glColor3f(c.x(),c.y(),c.z());
+        //glVertex2f(s.x,s.y);
 
         counter++;
     }
     // End mode: draw points
-    glEnd();
+    //glEnd();
+
+    // Draw triangle
+    float trianglePos[6] = {
+        0.f, 0.f,
+        0.f, 1.f,
+        1.f, 0.f
+    };
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), trianglePos, GL_STATIC_DRAW);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
     glfwPollEvents();
     glfwSwapBuffers(window);
     std::cout << "Rendering done!" << std::endl;
