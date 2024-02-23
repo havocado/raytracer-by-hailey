@@ -115,15 +115,14 @@ int main() {
     glfwGetFramebufferSize(window, &width, &height);
     std::cout << "framebuffer sizes: width " << width << ", height " << height << std::endl;
 
-    // Set background color to viewport
-    glViewport(0, 0, width, height);
-    glClear(GL_COLOR_BUFFER_BIT);
-
     std::cout << "Starting Raytracing ......" << std::endl;
 
     // Generate Sample points on screen
     Sampler sampler;
     std::vector<NdcPoint> samplePoints = sampler.createSamplePoints(width, height);
+
+    // Set background color to viewport
+    glViewport(0, 0, width, height);
 
     // Raytracing loop
     //glBegin(GL_POINTS);
@@ -142,14 +141,31 @@ int main() {
 
     // Draw triangle
     float trianglePos[6] = {
-        0.f, 0.f,
-        0.f, 1.f,
-        1.f, 0.f
+        -1.f, -1.0f,
+        -1.f, 1.f,
+        1.f, 1.0f
     };
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), trianglePos, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+
+    std::string vertShader;
+    std::string fragShader;
+    readFile2Str(vertShader, "../vertShader.vert");
+    readFile2Str(fragShader, "../fragShader.frag");
+
+    unsigned int shader = createShader(vertShader, fragShader);
+
+    glUseProgram(shader);
+
+    glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
     glfwPollEvents();
@@ -164,6 +180,7 @@ int main() {
     // Destroy window
     std::cout << "Closing window ......" << std::endl;
     glfwDestroyWindow(window);
+    glDeleteShader(shader);
     glfwTerminate();
     exit(EXIT_SUCCESS);
 }
