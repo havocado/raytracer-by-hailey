@@ -15,7 +15,6 @@ public:
     // Intrinsics
     float sensorWidth; // [meters]
     float sensorHeight; // [meters]
-
     float focal_length; // [meters]
 
     // Use APS-C Camera standard when params not specified
@@ -24,7 +23,7 @@ public:
     }
 
     Ray getRay(const NdcPoint& ndcPoint, const int& screenWidth, const int& screenHeight) const {
-        Point3 A = Point3(ndcPoint.x, ndcPoint.y, -1.f);
+        Point3 A = Point3(ndcPoint.x, ndcPoint.y, -1.f * this->focal_length);
         Point3 B = A * Point3(this->sensorWidth, this->sensorHeight, this->focal_length);
         Point3 rayScreenDirection = rotationMatrix * B;
         return {this->position, rayScreenDirection, 0};
