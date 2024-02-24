@@ -152,17 +152,10 @@ int main() {
     glfwPollEvents();
     glfwSwapBuffers(window);
 
-    // Creating texture framebuffer
-    unsigned int textureBuffer;
-    glGenBuffers(1, &textureBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, textureBuffer);
-
-    // Create texture
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-    // Configure framebuffer
+    unsigned int resultBuffer;
+    glGenBuffers(1, &resultBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, resultBuffer);
+    glBufferData(GL_ARRAY_BUFFER, width * height, )
 
 
     // Raytracing loop
