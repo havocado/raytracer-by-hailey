@@ -80,14 +80,9 @@ int main() {
     Sphere sphere2(Point3(-3.8f, 0.f, -0.5f), Matrix3x3(), 3.f, &yellowMaterial);
     scene.objectList.push_back(&sphere2);
 
-    // Initialize Camera
-    std::cout << "Initializing Camera ......" << std::endl;
+    // Create Camera
+    std::cout << "Creating Camera ......" << std::endl;
     CameraSpec camera; // Use default constants
-
-    // User defined constants
-    // Since ratio is determined by the camera specifications, window height is not configurable
-    const int numPixelWidth = 640;
-    const std::pair<int, int> windowDim = getWindowDim(camera, numPixelWidth);
 
     // Create window
     std::cout << "Creating Window ......" << std::endl;
@@ -101,13 +96,14 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(windowDim.first, windowDim.second, "Raytracer by Hailey", NULL, NULL);
+    const int screenWidth = 640;
+    const std::pair<int, int> resolution = getResolution(camera, screenWidth);
+    window = glfwCreateWindow(resolution.first, resolution.second, "Raytracer by Hailey", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
     glfwMakeContextCurrent(window);
-    // load GLAD
     gladLoadGL(glfwGetProcAddress);
 
     // Read actual resolution from created window
@@ -124,26 +120,11 @@ int main() {
     // Set background color to viewport
     glViewport(0, 0, width, height);
 
-    // Raytracing loop
-    //glBegin(GL_POINTS);
-    int counter = 0;
-    for (auto s: samplePoints) {
-        //Ray r = camera.getRay(s, width, height);
-        //Color c = raytrace(r, scene);
-        // Draw point in color
-        //glColor3f(c.x(),c.y(),c.z());
-        //glVertex2f(s.x,s.y);
-
-        counter++;
-    }
-    // End mode: draw points
-    //glEnd();
-
     // Draw triangle
     float trianglePos[6] = {
-        -1.f, -1.0f,
-        -1.f, 1.f,
-        1.f, 1.0f
+            -1.f, -1.0f,
+            -1.f, 1.f,
+            1.f, 1.0f
     };
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
@@ -170,11 +151,41 @@ int main() {
 
     glfwPollEvents();
     glfwSwapBuffers(window);
+
+    // Creating texture framebuffer
+    unsigned int textureBuffer;
+    glGenBuffers(1, &textureBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, textureBuffer);
+
+    // Create texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    // Configure framebuffer
+
+
+    // Raytracing loop
+    //glBegin(GL_POINTS);
+    int counter = 0;
+    for (auto s: samplePoints) {
+        Ray r = camera.getRay(s, width, height);
+        Color c = raytrace(r, scene);
+        // Draw point in color
+        //glColor3f(c.x(),c.y(),c.z());
+        //glVertex2f(s.x,s.y);
+
+        counter++;
+    }
+    // End mode: draw points
+    //glEnd();
+
     std::cout << "Rendering done!" << std::endl;
 
     // Wait until the window is closed
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
+        glfwSwapBuffers(window);
     }
 
     // Destroy window

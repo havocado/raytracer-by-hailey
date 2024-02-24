@@ -57,8 +57,8 @@ unsigned int createShader(const std::string& vertShader, const std::string& frag
     return program;
 }
 
-std::pair<int, int> getWindowDim(const CameraSpec& camera, const int& numPixelWidth) {
-    return {numPixelWidth, std::round((float)numPixelWidth * camera.sensorHeight / camera.sensorWidth)};
+std::pair<int, int> getResolution(const CameraSpec& camera, const int& screenWidth) {
+    return {screenWidth, std::round((float)screenWidth * camera.sensorHeight / camera.sensorWidth)};
 }
 
 float calculateRaySurfaceCosAngle(const Ray& r, const Vec3& n) {

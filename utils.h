@@ -12,7 +12,7 @@ unsigned int compileShader(unsigned int type, const std::string& source);
 
 unsigned int createShader(const std::string& vertShader, const std::string& fragShader);
 
-std::pair<int, int> getWindowDim(const CameraSpec& camera, const int& numPixelWidth);
+std::pair<int, int> getResolution(const CameraSpec& camera, const int& numPixelWidth);
 
 float calculateRaySurfaceCosAngle(const Ray& r, const Vec3& n);
 
