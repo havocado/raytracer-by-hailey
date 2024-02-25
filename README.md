@@ -1,6 +1,7 @@
-# OpenGL side project - Raytracer
+# Raytracer by Hailey
 
-TBD
+This is my personal project building a raytracer from scratch (except OpenGL, which I can't make from scratch)
+
 
 ## Coordinates
 
