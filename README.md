@@ -2,6 +2,14 @@
 
 This is my personal project building a raytracer from scratch (except OpenGL, which I can't make from scratch)
 
+## Currently working on...
+
+- Wanted to do BVH collision detection in GLSL
+- Stuck in a rabbit hole of GPU optimization, kernel, thread, and a bunch of terminologies I have no clue about
+
+### Current results
+
+![image](https://github.com/havocado/raytracer-by-hailey/assets/47484587/51c8a59a-578c-466a-b582-05e27a6c6df0)
 
 ## Coordinates
 
