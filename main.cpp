@@ -60,7 +60,7 @@ int main() {
 
     // Initialize objects
     Scene scene;
-    std::string fileName = "../data/bun_zipper_res2.ply";
+    std::string fileName = "../data/bunny/reconstruction/bun_zipper_res2.ply";
     Mesh bunnyMesh = plyImport::read(fileName, whiteMaterial);
     bunnyMesh.moveZ(-0.20f);
     bunnyMesh.moveY(-0.1f);
