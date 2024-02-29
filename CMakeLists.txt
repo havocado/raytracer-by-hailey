@@ -2,6 +2,7 @@ cmake_minimum_required( VERSION 3.1 )
 
 project( raytracer-by-hailey )
 
+set(OpenGL_GL_PREFERENCE LEGACY)
 find_package( OpenGL REQUIRED )
 
 include_directories( ${OPENGL_INCLUDE_DIRS} )
