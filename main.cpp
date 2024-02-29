@@ -69,15 +69,19 @@ int main() {
     bunnyMesh.moveX(0.045f);
     scene.objectList.push_back(&bunnyMesh);
 
-    Cube cube1(Point3(1.f, 0.f, -1.3f), Matrix3x3(), 0.5f, 0.6f, 0.55f, &purpleMaterial);
+    Cube cube1(Point3(1.f, 0.f, -1.3f),
+               Matrix3x3(), 0.5f, 0.6f, 0.55f, &purpleMaterial);
     cube1.rotateX(-2.f);
     scene.objectList.push_back(&cube1);
-    Cube cube2(Point3(-0.7f, 0.f, -1.1f), Matrix3x3(), 0.7f, 0.6f, 0.3f, &redMaterial);
+    Cube cube2(Point3(-0.7f, 0.f, -1.1f),
+               Matrix3x3(), 0.7f, 0.6f, 0.3f, &redMaterial);
     cube2.rotateZ(-1.2f);
     scene.objectList.push_back(&cube2);
-    Cube cube3(Point3(0.f, -0.47f, 0.f), Matrix3x3(), 50.f, 0.2f, 50.f, &blueMaterial);
+    Cube cube3(Point3(0.f, -0.47f, 0.f),
+               Matrix3x3(), 50.f, 0.2f, 50.f, &blueMaterial);
     scene.objectList.push_back(&cube3);
-    Sphere sphere2(Point3(-3.8f, 0.f, -0.5f), Matrix3x3(), 3.f, &yellowMaterial);
+    Sphere sphere2(Point3(-3.8f, 0.f, -0.5f),
+                   Matrix3x3(), 3.f, &yellowMaterial);
     scene.objectList.push_back(&sphere2);
 
     // Create Camera
@@ -89,6 +93,7 @@ int main() {
     glfwSetErrorCallback(error_callback);
     GLFWwindow* window;
 
+    // OpenGL & Window Initialization ==============================
     if (!glfwInit()) {
         exit(EXIT_FAILURE);
     }
@@ -98,7 +103,8 @@ int main() {
 
     const int screenWidth = 640;
     const std::pair<int, int> resolution = getResolution(camera, screenWidth);
-    window = glfwCreateWindow(resolution.first, resolution.second, "Raytracer by Hailey", NULL, NULL);
+    window = glfwCreateWindow(resolution.first, resolution.second,
+                              "Raytracer by Hailey", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(EXIT_FAILURE);
@@ -111,25 +117,16 @@ int main() {
     glfwGetFramebufferSize(window, &width, &height);
     std::cout << "framebuffer sizes: width " << width << ", height " << height << std::endl;
 
-    std::cout << "Starting Raytracing ......" << std::endl;
+    // Setup OpenGL objects ========================================
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
 
-    // Generate Sample points on screen
-    Sampler sampler;
-    std::vector<NdcPoint> samplePoints = sampler.createSamplePoints(width, height);
-
-    // Set background color to viewport
-    glViewport(0, 0, width, height);
-
-    // Draw triangle
     float trianglePos[6] = {
             -1.f, -1.0f,
             -1.f, 1.f,
             1.f, 1.0f
     };
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
@@ -137,6 +134,7 @@ int main() {
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
+    // Setup Shaders ===============================================
     std::string vertShader;
     std::string fragShader;
     readFile2Str(vertShader, "../vertShader.vert");
@@ -146,17 +144,26 @@ int main() {
 
     glUseProgram(shader);
 
+    // Setup Texture Buffers =======================================
+    unsigned int resultBuffer;
+    glGenBuffers(1, &resultBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, resultBuffer);
+    glBufferData(GL_ARRAY_BUFFER, width * height, )
+
+    // Draw initial Triangle =======================================
+    glViewport(0, 0, width, height);
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
     glfwPollEvents();
     glfwSwapBuffers(window);
 
-    unsigned int resultBuffer;
-    glGenBuffers(1, &resultBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, resultBuffer);
-    glBufferData(GL_ARRAY_BUFFER, width * height, )
+    // Raytracing loop =============================================
+    std::cout << "Starting Raytracing ......" << std::endl;
 
+    // Generate Sample points on screen
+    Sampler sampler;
+    std::vector<NdcPoint> samplePoints = sampler.createSamplePoints(width, height);
 
     // Raytracing loop
     //glBegin(GL_POINTS);
@@ -181,7 +188,7 @@ int main() {
         glfwSwapBuffers(window);
     }
 
-    // Destroy window
+    // OpenGL & Window destruction =================================
     std::cout << "Closing window ......" << std::endl;
     glfwDestroyWindow(window);
     glDeleteShader(shader);
